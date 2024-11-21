@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/c13a497b-86cd-44b4-85aa-9a0994f3b95c/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/odgretpscweb",
+    "appService.deploySubpath": "."
+}
