@@ -1,3 +1,3 @@
 export interface IJsonCount {
-    count_0: string;
+    count_0: number;
 }

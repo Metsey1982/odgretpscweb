@@ -23,7 +23,7 @@ const pppLoanDataSlice = createSlice ({
             .addCase(fetchData.fulfilled, (state, action:PayloadAction<IOuterJsonObject>) => {
                 state.loading = false;
                 state.ppploanData.jsondata = action.payload.jsondata;
-                console.log("Original Slice:" + action.payload.jsondata);
+                //console.log("Original Slice:" + action.payload.jsondata);
             })
             .addCase(fetchData.rejected, (state, action: PayloadAction<string | undefined>) => {
                 state.loading = false;
@@ -36,7 +36,7 @@ const pppLoanDataSlice = createSlice ({
             .addCase(fetchPaginatedData.fulfilled, (state, action:PayloadAction<IOuterJsonObject>) => {
                 state.loading = false;
                 state.ppploanData.jsondata = action.payload.jsondata;
-                console.log("Paginated Slice:" + action.payload.jsondata);
+                //console.log("Paginated Slice:" + action.payload.jsondata);
             })
             .addCase(fetchPaginatedData.rejected, (state, action: PayloadAction<string | undefined>) => {
                 state.loading = false;
