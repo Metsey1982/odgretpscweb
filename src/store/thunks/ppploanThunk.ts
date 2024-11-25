@@ -40,7 +40,8 @@ export const fetchPaginatedData = createAsyncThunk<IOuterJsonObject, {pageSize: 
       //const params = page.toString() + '/' + pageSize.toString();
       //const params = new URLSearchParams({page.toString(), pageSize: pageSize.toString() });
       //const url = `${baseUrl}${params.toString()}`;
-      const varUrl = `${pageSize}/${page}`;
+      
+      const varUrl = `${pageSize}/${page}/nofilter/noorderby`;
 
       const response = await fetch(baseUrl + apiPaginatedUrl + varUrl);
 
