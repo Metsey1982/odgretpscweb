@@ -29,9 +29,9 @@ export const fetchData = createAsyncThunk<IOuterJsonObject, {}, { rejectValue: s
   }
 );
 // Call for forward/backward page or change in pagesize
-export const fetchPaginatedData = createAsyncThunk<IOuterJsonObject, {pageSize: number, page: number}, { rejectValue: string }>(
+export const fetchPaginatedData = createAsyncThunk<IOuterJsonObject, {pageSize: number, page: number, filterModel: string , sortModel: string}, { rejectValue: string }>(
   'ppploanData/fetchPaginatedData',
-  async ({pageSize,page}, { rejectWithValue }) => {
+  async ({pageSize,page,filterModel,sortModel}, { rejectWithValue }) => {
     try {
       //const baseUrl = 'https://ppploan-gdgbctfqa0c2fda4.eastus2-01.azurewebsites.net/api/PPPLoan/paginated/';
       const baseUrl = `${Config.apiBaseUrl}`;
@@ -41,7 +41,7 @@ export const fetchPaginatedData = createAsyncThunk<IOuterJsonObject, {pageSize: 
       //const params = new URLSearchParams({page.toString(), pageSize: pageSize.toString() });
       //const url = `${baseUrl}${params.toString()}`;
       
-      const varUrl = `${pageSize}/${page}/nofilter/noorderby`;
+      const varUrl = `${pageSize}/${page}/${filterModel}/${sortModel}`;
 
       const response = await fetch(baseUrl + apiPaginatedUrl + varUrl);
 
