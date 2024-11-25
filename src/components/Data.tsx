@@ -8,12 +8,11 @@ import { fetchData,fetchPaginatedData } from '../store/thunks/ppploanThunk';
 import Button from '@mui/material/Button';
 import { IPppLoanData } from '../interfaces/IPppLoanData';
 import { IJsonCount } from '../interfaces/IJsonCount';
-
+import Filter from '../components/Filter';
 const Data: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const {loading, error} = useSelector((state: RootState) => state.ppploanData);
     const [sortModel, setSortModel] = useState<GridSortModel>([]);
-    const [filterModel, setFilterModel] = useState<GridFilterModel>({ items: [] });    
     
     const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({ 
       pageSize: 25, page: 0
@@ -25,44 +24,22 @@ const Data: React.FC = () => {
       count_0: 0
     });
     
-    const applyFilterModel: GridFilterModel= {
-      
-      items:[]
-    
-    };
-    const customFilterOperators: GridFilterOperator[] = [
-      {
-        label: 'equals',
-        value: 'equals',
-        getApplyFilterFn: (filterItem: GridFilterItem) => {
-          return (params) => {
-            
-            if (!filterItem.value) {
-              return true;
-            }
-            return params === filterItem.value;
-          };
-        },
-        InputComponent: GridFilterInputValue,
-      },
-    ];
-    
     const columns: GridColDef[] = [
-        { field: 'loanrange', headerName: 'Loan Range', width: 150, filterable: true,  filterOperators: customFilterOperators},
-        { field: 'businessname', headerName: 'Business Name', width: 150, filterable: true,   filterOperators: customFilterOperators},
+        { field: 'loanrange', headerName: 'Loan Range', width: 150, filterable: false },
+        { field: 'businessname', headerName: 'Business Name', width: 150, filterable: false },
         { field: 'address', headerName: 'Street Address', width: 150, sortable: false, filterable: false },
-        { field: 'city', headerName: 'City', width: 150, filterable: true,   filterOperators: customFilterOperators},
-        { field: 'state', headerName: 'State', width: 100, filterable: true,   filterOperators: customFilterOperators},
-        { field: 'zip', headerName: 'Zipcode', width: 100, filterable: true,  filterOperators: customFilterOperators},
-        { field: 'naicscode', headerName: 'NACIS Code', width: 100, filterable: true,   filterOperators: customFilterOperators},
-        { field: 'businesstype', headerName: 'Business Type', width: 100, filterable: true,  filterOperators: customFilterOperators},
-        { field: 'raceethnicity', headerName: 'Race Ethnicity', width: 100, filterable: true,   filterOperators: customFilterOperators},
-        { field: 'gender', headerName: 'Gender', width: 100, filterable: true,   filterOperators: customFilterOperators},
-        { field: 'veteran', headerName: 'Veteran', width: 100, filterable: true,   filterOperators: customFilterOperators},
-        { field: 'jobsretained', headerName: 'Jobs Retained', width: 100, filterable: true,   filterOperators: customFilterOperators},
-        { field: 'dateapproved',  headerName: 'Date Approved', width: 100, filterable: true,   filterOperators: customFilterOperators},
-        { field: 'lender', headerName: 'Lender', width: 150, filterable: true,   filterOperators: customFilterOperators},
-        { field: 'cd', headerName: 'Congressional District', width: 100, filterable: true,  filterOperators: customFilterOperators},
+        { field: 'city', headerName: 'City', width: 150, filterable: false },
+        { field: 'state', headerName: 'State', width: 100, filterable: false },
+        { field: 'zip', headerName: 'Zipcode', width: 100, filterable: false },
+        { field: 'naicscode', headerName: 'NACIS Code', width: 100,filterable: false },
+        { field: 'businesstype', headerName: 'Business Type', width: 100, filterable: false },
+        { field: 'raceethnicity', headerName: 'Race Ethnicity', width: 100, filterable: false },
+        { field: 'gender', headerName: 'Gender', width: 100, filterable: false },
+        { field: 'veteran', headerName: 'Veteran', width: 100, filterable: false },
+        { field: 'jobsretained', headerName: 'Jobs Retained', width: 100, filterable: false },
+        { field: 'dateapproved',  headerName: 'Date Approved', width: 100, filterable: false },
+        { field: 'lender', headerName: 'Lender', width: 150, filterable: false },
+        { field: 'cd', headerName: 'Congressional District', width: 100, filterable: false },
         { field: 'geocoded_column', headerName: 'ID', width: 350, sortable: false, filterable: false},
       ];
       //console.log("column0 filterOperators: " + columns[0].filterOperators);
@@ -75,71 +52,19 @@ const Data: React.FC = () => {
       useEffect(()=> {
         console.log("Updated Recordcount: " + recordCount.count_0)
       },[recordCount]);
-/*
-      useEffect(() => {
-        console.log('In handleFilterModelChange')
-        filterModel.items.forEach((item: GridFilterItem) => {
-          console.log('Filter Changed: ',  item.field + ':' + item.operator + ':' + item.value)   
-        })
-      },[filterModel]);
-  */ 
+
       const handleSortModelChange = (model: GridSortModel) => 
       {
         console.log('Sort Changed: ', model);
         //program in data fetch with 
       };
 
-      const handleTestFilterButtononClick = () => {
-        var ct = applyFilterModel.items.entries.length
-
-        console.log('item count: ', ct.toString());
-
-        applyFilterModel.items.forEach((item: GridFilterItem) => {
-          console.log('Filters Currently in applyFilterModel: ',  item.field + ':' + item.operator + ':' + item.value);
-        });        
-      }
-
-      const handleFilterModelChange = (newFilterModel: GridFilterModel) => {
-        console.log('Attempting to change filter model:', newFilterModel);
-        
-        newFilterModel.items.forEach((item: GridFilterItem) => {
-          if(item.value != null){
-            var i = applyFilterModel.items.push(item);
-            console.log('Filter Changed: ',  item.field + ':' + item.operator + ':' + item.value);
-            console.log('applyFilterModel.items.count: ' + i.toString());
-          }
-          else
-          {
-            console.log('Filter model change prevente by undefined value.')           
-          };
-        });
-        
-        applyFilterModel.items.forEach((item: GridFilterItem) => {
-          console.log('Filter Added to applyFilterModel: ',  item.field + ':' + item.operator + ':' + item.value);
-        });
-        
-        
-        // Add custom logic to determine whether to apply the filter changes
-        const shouldApplyFilter = false; // Replace with your condition
-    
-        if (shouldApplyFilter) {
-          setFilterModel(newFilterModel);
-        } else {
-          console.log('Filter model change prevented.');
-        }
-      };
-    /*
-      const handleFilterModelChange = (event: { preventDefault: () => void; }) => 
+      const handleTestFilterButtononClick = () => 
       {
-        event.preventDefault();
-        console.log('In handleFilterModelChange');
-        //model.items.forEach((item: GridFilterItem) => {
-        //  console.log('Filter Changed: ',  item.field + ':' + item.operator + ':' + item.value);
-        //parse out filter model values field = value
-        //
-        //});
-      };
-*/
+        //var ct = applyFilterModel.items.entries.length
+        //console.log('item count: ', ct.toString());
+      };       
+    
       const handlePageChange = (model: GridPaginationModel) => {
 
         setPaginationModel(model);
@@ -209,11 +134,21 @@ const Data: React.FC = () => {
         <div>
             {loading && <p>Loading...</p>}
             {error && <p>Error: {error}</p>}
+
             <div style={{height: '50%', width: '100%' }}>
+
+                <Button id="1" onClick={handleGetDataButtonClick} variant="outlined">Get Loan Data</Button>
+                <Button id="2" onClick={handleApplyFilterButtononClick} variant="outlined">Apply Filter</Button>
+                <Button id="3" onClick={handleTestFilterButtononClick} variant="outlined">Apply Filter Status</Button>
+              <div>
+              <div style={{height: "10px", width: "100%"}}> 
+
+              </div>
+              <div style={{height: "40px", width: "100%"}}> 
+                <Filter/>
+              </div>
               
-            <Button id="1" onClick={handleGetDataButtonClick} variant="outlined">Get Loan Data</Button>
-            <Button id="2" onClick={handleApplyFilterButtononClick} variant="outlined">Apply Filter</Button>
-            <Button id="3" onClick={handleTestFilterButtononClick} variant="outlined">Apply Filter State</Button>
+            </div>
             <DataGrid 
                 style={{color: "black", backgroundColor: "lightgrey"}}
                 columns={columns} 
@@ -225,8 +160,6 @@ const Data: React.FC = () => {
                 pagination
                 onPaginationModelChange={handlePageChange}
                 onSortModelChange={handleSortModelChange}
-                filterModel={filterModel}
-                onFilterModelChange={handleFilterModelChange}
                 getRowId={(row) => `${row.loanrange}-${row.businessname}-${row.address}`} // Specify a unique ID based on
                 />
                 
