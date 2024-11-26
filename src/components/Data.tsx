@@ -1,14 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import '../styles/bulma.css';
-import { DataGrid, GridColDef, GridPaginationModel, GridSortModel,GridFilterModel, GridFilterOperator, GridFilterInputValue, GridFilterItem } from '@mui/x-data-grid';
-import TextField from '@mui/material/TextField';
+import { DataGrid, GridColDef, GridPaginationModel, GridSortModel } from '@mui/x-data-grid';
 import { RootState, AppDispatch } from '../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchData,fetchPaginatedData } from '../store/thunks/ppploanThunk';
 import Button from '@mui/material/Button';
 import { IPppLoanData } from '../interfaces/IPppLoanData';
 import { IJsonCount } from '../interfaces/IJsonCount';
-import Filter from '../components/Filter';
+import {FilterTextFields} from '../components/Filter';
+
 const Data: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const {loading, error} = useSelector((state: RootState) => state.ppploanData);
@@ -23,6 +23,8 @@ const Data: React.FC = () => {
     const[recordCount, setRecordCount] = useState<IJsonCount>({
       count_0: 0
     });
+    
+    const filterRef = useRef<{applyFilterModel: () => void}>(null);
     
     const columns: GridColDef[] = [
         { field: 'loanrange', headerName: 'Loan Range', width: 150, filterable: false },
@@ -58,12 +60,14 @@ const Data: React.FC = () => {
         console.log('Sort Changed: ', model);
         //program in data fetch with 
       };
-
-      const handleTestFilterButtononClick = () => 
-      {
-        //var ct = applyFilterModel.items.entries.length
-        //console.log('item count: ', ct.toString());
-      };       
+      
+      //Filter.tsx function call
+      const handleApplyFilterButtononClick = () => {
+        console.log("in applyfilterbutton code");
+        if (filterRef.current) {
+          filterRef.current.applyFilterModel();
+        }
+      };   
     
       const handlePageChange = (model: GridPaginationModel) => {
 
@@ -97,9 +101,6 @@ const Data: React.FC = () => {
 
       };
     
-      const handleApplyFilterButtononClick = () => {
-
-      }
       const handleGetDataButtonClick = () => {
         dispatch(fetchData({}))
           .unwrap()
@@ -136,16 +137,14 @@ const Data: React.FC = () => {
             {error && <p>Error: {error}</p>}
 
             <div style={{height: '50%', width: '100%' }}>
-
                 <Button id="1" onClick={handleGetDataButtonClick} variant="outlined">Get Loan Data</Button>
-                <Button id="2" onClick={handleApplyFilterButtononClick} variant="outlined">Apply Filter</Button>
-                <Button id="3" onClick={handleTestFilterButtononClick} variant="outlined">Apply Filter Status</Button>
+                <Button id="2" onClick={handleApplyFilterButtononClick} variant="outlined">Apply Filter Model</Button>
               <div>
               <div style={{height: "10px", width: "100%"}}> 
 
               </div>
               <div style={{height: "40px", width: "100%"}}> 
-                <Filter/>
+                <FilterTextFields/>
               </div>
               
             </div>
@@ -162,10 +161,8 @@ const Data: React.FC = () => {
                 onSortModelChange={handleSortModelChange}
                 getRowId={(row) => `${row.loanrange}-${row.businessname}-${row.address}`} // Specify a unique ID based on
                 />
-                
             </div>
         </div>
     );
 };
-
 export default Data;
