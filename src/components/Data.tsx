@@ -125,6 +125,7 @@ const Data: React.FC = () => {
         globalArray.forEach((item) => {
           if(item.startsWith('businesstype'))
           {
+            
             filterValues.businesstype = item.substring(item.indexOf("_")+1);
             console.log('Inserted ',item.substring(item.indexOf("_")+1));
           }

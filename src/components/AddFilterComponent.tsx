@@ -9,8 +9,9 @@ const AddFilterField: React.FC<{ id: string, name: string }> = ({ id, name}) => 
     const handleAddFilter = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { value } = e.target;
         console.log('In handleAddFilter - id: ', id, ' name: ', name, ' value: ', value);
-        setHoldFilter(name + "_" + value);
-        addItemToGlobalArray(name + "_" + value);
+        
+        setHoldFilter(name + "_" + value.replace(name + "_",""));
+        addItemToGlobalArray(name + "_" + value.replace(name + "_",""));
     };
 
     return (

@@ -4,14 +4,6 @@ import { useGlobalState } from '../contexts/GlobalStateContext';
 
 const Footer: React.FC = () => {
     const {globalArray} = useGlobalState();
-    console.log('in footer');
-    globalArray.forEach((item) => {
-      if(item != null)
-        console.log('globalArray Values: ',item);
-      else
-        console.log('globalArray value = null');
-    });
-    console.log('globalArray: ',globalArray.length.toString());
     return (
         <div>
             <h1>Footer Component - will contain footer components and or messages</h1>
