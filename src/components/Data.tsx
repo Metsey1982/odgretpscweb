@@ -1,31 +1,30 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import '../styles/bulma.css';
-import { DataGrid, GridColDef, GridPaginationModel, GridSortModel } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridPaginationModel, GridSortModel} from '@mui/x-data-grid';
 import { RootState, AppDispatch } from '../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchData,fetchPaginatedData } from '../store/thunks/ppploanThunk';
 import Button from '@mui/material/Button';
 import { IPppLoanData } from '../interfaces/IPppLoanData';
 import { IJsonCount } from '../interfaces/IJsonCount';
-import {FilterTextFields} from '../components/Filter';
+import { IFilterValues } from '../interfaces/IFilterValues';
+import FilterTextFields from '../components/Filter';
+import { useGlobalState } from '../contexts/GlobalStateContext';
 
 const Data: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const {loading, error} = useSelector((state: RootState) => state.ppploanData);
     const [sortModel, setSortModel] = useState<GridSortModel>([]);
-    
-    const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({ 
-      pageSize: 25, page: 0
-    });
-    
+    const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({pageSize: 25, page: 0});
     const [rows, setRows] = useState<IPppLoanData[]>([]);
+    const[recordCount, setRecordCount] = useState<IJsonCount>({count_0: 0});
     
-    const[recordCount, setRecordCount] = useState<IJsonCount>({
-      count_0: 0
+    const [filterValues, setFilterValues] = useState<IFilterValues>({
+
+      businesstype: '',
+      // Add other filter values as needed
     });
-    
-    const filterRef = useRef<{applyFilterModel: () => void}>(null);
-    
+    const {globalArray} = useGlobalState();
     const columns: GridColDef[] = [
         { field: 'loanrange', headerName: 'Loan Range', width: 150, filterable: false },
         { field: 'businessname', headerName: 'Business Name', width: 150, filterable: false },
@@ -60,17 +59,8 @@ const Data: React.FC = () => {
         console.log('Sort Changed: ', model);
         //program in data fetch with 
       };
-      
-      //Filter.tsx function call
-      const handleApplyFilterButtononClick = () => {
-        console.log("in applyfilterbutton code");
-        if (filterRef.current) {
-          filterRef.current.applyFilterModel();
-        }
-      };   
-    
+ 
       const handlePageChange = (model: GridPaginationModel) => {
-
         setPaginationModel(model);
         console.log('page: ' + paginationModel.page.toString() + ' and pageSize: ' + paginationModel.pageSize.toString());   
         dispatch(fetchPaginatedData({ page: model.page, pageSize: model.pageSize, filterModel: "nofilter", sortModel: "noorderby" }))
@@ -98,8 +88,7 @@ const Data: React.FC = () => {
           .catch((rejectedValueOrSerializedError) => {
             console.error('Error fetching data on button click:', rejectedValueOrSerializedError);
           });
-
-      };
+     };
     
       const handleGetDataButtonClick = () => {
         dispatch(fetchData({}))
@@ -130,7 +119,27 @@ const Data: React.FC = () => {
             console.error('Error fetching data on button click:', rejectedValueOrSerializedError);
           });
       };
-    
+ 
+      const handleApplyFilterButtononClick = () => {
+        console.log("in applyfilterbutton code");
+        globalArray.forEach((item) => {
+          if(item.startsWith('businesstype'))
+          {
+            filterValues.businesstype = item.substring(item.indexOf("_")+1);
+            console.log('Inserted ',item.substring(item.indexOf("_")+1));
+          }
+        });
+        
+        console.log(filterValues);
+      };
+      
+      const handleFilterChange = (name: string, value: string) => {
+        console.log('In handleFilterChange: ', name + ':' + value);
+        setFilterValues((prevValues) => ({ 
+          ...prevValues, [name]: value,
+        }));
+      };
+         
     return (
         <div>
             {loading && <p>Loading...</p>}
@@ -139,29 +148,25 @@ const Data: React.FC = () => {
             <div style={{height: '50%', width: '100%' }}>
                 <Button id="1" onClick={handleGetDataButtonClick} variant="outlined">Get Loan Data</Button>
                 <Button id="2" onClick={handleApplyFilterButtononClick} variant="outlined">Apply Filter Model</Button>
-              <div>
-              <div style={{height: "10px", width: "100%"}}> 
-
-              </div>
-              <div style={{height: "40px", width: "100%"}}> 
-                <FilterTextFields/>
-              </div>
-              
-            </div>
-            <DataGrid 
-                style={{color: "black", backgroundColor: "lightgrey"}}
-                columns={columns} 
-                //rows"={JSON.parse(JSON.stringify(ppploanData.jsondata.toString()))} 
-                rows={rows}
-                paginationMode='server'
-                rowCount={recordCount.count_0 | 0}
-                paginationModel={paginationModel}
-                pagination
-                onPaginationModelChange={handlePageChange}
-                onSortModelChange={handleSortModelChange}
-                getRowId={(row) => `${row.loanrange}-${row.businessname}-${row.address}`} // Specify a unique ID based on
+                <div style={{height: '20px'}}></div>                
+                <div style={{height: '40px'}}>
+                  <FilterTextFields filterValues={filterValues} handleFilterChange={handleFilterChange} />
+                </div>
+                <DataGrid 
+                  style={{color: "black", backgroundColor: "lightgrey"}}
+                  columns={columns} 
+                  //rows"={JSON.parse(JSON.stringify(ppploanData.jsondata.toString()))} 
+                  rows={rows}
+                  paginationMode='server'
+                  rowCount={recordCount.count_0 | 0}
+                  paginationModel={paginationModel}
+                  pagination
+                  onPaginationModelChange={handlePageChange}
+                  onSortModelChange={handleSortModelChange}
+                  getRowId={(row) => `${row.loanrange}-${row.businessname}-${row.address}`} // Specify a unique ID based on
                 />
             </div>
+
         </div>
     );
 };
