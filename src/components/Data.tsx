@@ -17,14 +17,13 @@ const Data: React.FC = () => {
     const [sortModel, setSortModel] = useState<GridSortModel>([]);
     const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({pageSize: 25, page: 0});
     const [rows, setRows] = useState<IPppLoanData[]>([]);
-    const[recordCount, setRecordCount] = useState<IJsonCount>({count_0: 0});
+    const [recordCount, setRecordCount] = useState<IJsonCount>({count_0: 0});
     
     const [filterValues, setFilterValues] = useState<IFilterValues>({
-
       businesstype: '',
       // Add other filter values as needed
     });
-    const {globalArray} = useGlobalState();
+    const {globalArray, setGlobalArray} = useGlobalState();
     const columns: GridColDef[] = [
         { field: 'loanrange', headerName: 'Loan Range', width: 150, filterable: false },
         { field: 'businessname', headerName: 'Business Name', width: 150, filterable: false },
@@ -74,7 +73,14 @@ const Data: React.FC = () => {
               : JSON.parse(originalPromiseResult.jsonCount)
             
             const rowC = parsedJsonCount[0].count_0;
-            console.log("rowC: " + rowC);
+            console.log("rowC: " + rowC);const handleClearFilterButtononClick = () => {
+              filterValues.businesstype = "";
+              console.log('filterValues.businesstype after clear: ',filterValues.businesstype);
+              const emptyTheGlobalArray: string[] = [];
+              setGlobalArray(emptyTheGlobalArray);
+              console.log('After Empty Array: ',emptyTheGlobalArray.length);
+              //clear the filter field
+          };
             setRecordCount({count_0: rowC});
             
             // Ensure jsondata is an array
@@ -91,7 +97,22 @@ const Data: React.FC = () => {
      };
     
       const handleGetDataButtonClick = () => {
-        dispatch(fetchData({}))
+        //first set filter model
+        applyFilter();
+        //next translate the filter model into formatted api filter string
+        var _filterURL = "";
+        if(globalArray.length == 0)
+          _filterURL = "nofilter";
+        else
+        {
+          globalArray.map((item) => (
+            _filterURL = item.replace("_","=")
+          ))
+        }
+        console.log('filterURL: ', _filterURL);
+        //call api 
+        
+        dispatch(fetchData({filterURL: _filterURL}))
           .unwrap()
           .then((originalPromiseResult) => {
             //.toString()console.log(originalPromiseResult.jsondata);
@@ -118,14 +139,14 @@ const Data: React.FC = () => {
           .catch((rejectedValueOrSerializedError) => {
             console.error('Error fetching data on button click:', rejectedValueOrSerializedError);
           });
+          
       };
  
-      const handleApplyFilterButtononClick = () => {
+      const applyFilter = () => {
         console.log("in applyfilterbutton code");
         globalArray.forEach((item) => {
-          if(item.startsWith('businesstype'))
-          {
-            
+          if(item.startsWith('businesstype_'))
+          {           
             filterValues.businesstype = item.substring(item.indexOf("_")+1);
             console.log('Inserted ',item.substring(item.indexOf("_")+1));
           }
@@ -140,18 +161,22 @@ const Data: React.FC = () => {
           ...prevValues, [name]: value,
         }));
       };
-         
+      
+
     return (
         <div>
             {loading && <p>Loading...</p>}
             {error && <p>Error: {error}</p>}
 
             <div style={{height: '50%', width: '100%' }}>
-                <Button id="1" onClick={handleGetDataButtonClick} variant="outlined">Get Loan Data</Button>
-                <Button id="2" onClick={handleApplyFilterButtononClick} variant="outlined">Apply Filter Model</Button>
-                <div style={{height: '20px'}}></div>                
+
+
+                <div style={{height: '60px'}}></div>                
                 <div style={{height: '40px'}}>
                   <FilterTextFields filterValues={filterValues} handleFilterChange={handleFilterChange} />
+                </div>
+                <div style={{width: "100px", float: "left"}}>
+                  <Button id="1" onClick={handleGetDataButtonClick} variant="outlined">Get Data</Button>
                 </div>
                 <DataGrid 
                   style={{color: "black", backgroundColor: "lightgrey"}}

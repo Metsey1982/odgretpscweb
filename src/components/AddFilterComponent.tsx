@@ -1,31 +1,37 @@
 import React, {useState} from 'react';
 import { useGlobalState } from '../contexts/GlobalStateContext';
 import { TextField } from '@mui/material';
+import { IFilterValues } from '../interfaces/IFilterValues';
+
 
 const AddFilterField: React.FC<{ id: string, name: string }> = ({ id, name}) => {
     const {addItemToGlobalArray} = useGlobalState();
-    const [holdFilter, setHoldFilter] = useState<string>('');
+    const [businessTypeFieldValue, setBusinessTypeFieldValue] = useState<string>("");
+    const [filterValues] = useState<IFilterValues>({
+        businesstype: '',
+        // Add other filter values as needed
+      });
 
     const handleAddFilter = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { value } = e.target;
         console.log('In handleAddFilter - id: ', id, ' name: ', name, ' value: ', value);
         
-        setHoldFilter(name + "_" + value.replace(name + "_",""));
         addItemToGlobalArray(name + "_" + value.replace(name + "_",""));
+        setBusinessTypeFieldValue("");
     };
-
+ 
     return (
-            <div>     
+            <div> 
                 <TextField 
                     style={{width: "100px", float: "left"}}
                     id={id} 
                     size="small" 
                     fullWidth={false}
                     type="text"
-                    value={holdFilter}
+                    value={businessTypeFieldValue}                    
                     onChange={handleAddFilter}
                     label={name}
-                    placeholder={name}
+                    placeholder="filter value"
                 />  
             </div>             
     );
