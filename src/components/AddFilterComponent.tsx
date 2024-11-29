@@ -1,16 +1,10 @@
 import React, {useState} from 'react';
 import { useGlobalState } from '../contexts/GlobalStateContext';
 import { TextField } from '@mui/material';
-import { IFilterValues } from '../interfaces/IFilterValues';
-
 
 const AddFilterField: React.FC<{ id: string, name: string }> = ({ id, name}) => {
     const {addItemToGlobalArray} = useGlobalState();
     const [businessTypeFieldValue, setBusinessTypeFieldValue] = useState<string>("");
-    const [filterValues] = useState<IFilterValues>({
-        businesstype: '',
-        // Add other filter values as needed
-      });
 
     const handleAddFilter = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { value } = e.target;
@@ -39,7 +33,7 @@ const AddFilterField: React.FC<{ id: string, name: string }> = ({ id, name}) => 
 
 const TextFieldContainer: React.FC = () => {
     //const names = ['loanrange', 'businessname', 'address', 'city', 'state', 'zip', 'naicscode', 'businesstype', 'raceethnicity', 'gender', 'veteran', 'jobsretained', 'dateapproved', 'lender', 'cd'];
-    const names = ['businesstype'];
+    const names = ['naicscode','businesstype'];
 
     return (
         <div>

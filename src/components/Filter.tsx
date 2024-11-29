@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import '../styles/bulma.css';
-import {TextField, Button} from '@mui/material';
-import {IFilterTextFieldsProps} from '../interfaces/IFilterTextFieldProps';
+import { TextField, Button } from '@mui/material';
+import { IFilterTextFieldsProps } from '../interfaces/IFilterTextFieldProps';
 import AddFilterField from './AddFilterComponent';
 import { useGlobalState } from '../contexts/GlobalStateContext';
 
-const FilterTextFields: React.FC<IFilterTextFieldsProps> = ({ filterValues, handleFilterChange}) =>
+const FilterTextFields: React.FC<IFilterTextFieldsProps> = ({ filterValues}) =>
     {
         const {setGlobalArray} = useGlobalState();
         const handleClearFilterButtononClick = () => {

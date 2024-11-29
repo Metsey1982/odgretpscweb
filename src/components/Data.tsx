@@ -10,20 +10,22 @@ import { IJsonCount } from '../interfaces/IJsonCount';
 import { IFilterValues } from '../interfaces/IFilterValues';
 import FilterTextFields from '../components/Filter';
 import { useGlobalState } from '../contexts/GlobalStateContext';
+import FilterContainer from '../components/FilterContainer';
 
 const Data: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const {loading, error} = useSelector((state: RootState) => state.ppploanData);
-    const [sortModel, setSortModel] = useState<GridSortModel>([]);
+    //const [sortModel, setSortModel] = useState<GridSortModel>([]);
     const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({pageSize: 25, page: 0});
     const [rows, setRows] = useState<IPppLoanData[]>([]);
     const [recordCount, setRecordCount] = useState<IJsonCount>({count_0: 0});
     
     const [filterValues, setFilterValues] = useState<IFilterValues>({
       businesstype: '',
+      naciscode: '',
       // Add other filter values as needed
     });
-    const {globalArray, setGlobalArray} = useGlobalState();
+    const {globalArray} = useGlobalState();
     const columns: GridColDef[] = [
         { field: 'loanrange', headerName: 'Loan Range', width: 150, filterable: false },
         { field: 'businessname', headerName: 'Business Name', width: 150, filterable: false },
@@ -73,14 +75,8 @@ const Data: React.FC = () => {
               : JSON.parse(originalPromiseResult.jsonCount)
             
             const rowC = parsedJsonCount[0].count_0;
-            console.log("rowC: " + rowC);const handleClearFilterButtononClick = () => {
-              filterValues.businesstype = "";
-              console.log('filterValues.businesstype after clear: ',filterValues.businesstype);
-              const emptyTheGlobalArray: string[] = [];
-              setGlobalArray(emptyTheGlobalArray);
-              console.log('After Empty Array: ',emptyTheGlobalArray.length);
-              //clear the filter field
-          };
+            console.log("rowC: " + rowC);
+
             setRecordCount({count_0: rowC});
             
             // Ensure jsondata is an array
@@ -101,7 +97,7 @@ const Data: React.FC = () => {
         applyFilter();
         //next translate the filter model into formatted api filter string
         var _filterURL = "";
-        if(globalArray.length == 0)
+        if(globalArray.length === 0)
           _filterURL = "nofilter";
         else
         {
@@ -165,17 +161,13 @@ const Data: React.FC = () => {
 
     return (
         <div>
-            {loading && <p>Loading...</p>}
-            {error && <p>Error: {error}</p>}
-
             <div style={{height: '50%', width: '100%' }}>
-
-
-                <div style={{height: '60px'}}></div>                
-                <div style={{height: '40px'}}>
-                  <FilterTextFields filterValues={filterValues} handleFilterChange={handleFilterChange} />
-                </div>
-                <div style={{width: "100px", float: "left"}}>
+                <div style={{height: '60px'}}></div>   
+                <FilterContainer filterValues={filterValues} handleFilterChange={handleFilterChange} />
+                <div style={{height: '60px'}}></div>   
+                {loading && <p>Loading...</p>}
+                {error && <p>Error: {error}</p>}
+                <div style={{width: "100px", float: "left"}}> 
                   <Button id="1" onClick={handleGetDataButtonClick} variant="outlined">Get Data</Button>
                 </div>
                 <DataGrid 
