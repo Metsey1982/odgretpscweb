@@ -16,7 +16,8 @@ const FilterContainer: React.FC<IFilterTextFieldsProps> = ({ filterValues}) => {
         };
   return (
     <div>
-      <Button id="2" onClick={handleClearFilterButtononClick} variant="outlined" style={{width: "100px", float: "left"}}>Clear</Button>
+      <Button id="2" onClick={handleClearFilterButtononClick} variant="outlined" style={{width: "50px", float: "left"}}>Clear</Button>
+      <Button id="3" variant="outlined" style={{width: "50px", float: "left"}}>Apply</Button>
       <TextFieldContainer />
     </div>
   );
