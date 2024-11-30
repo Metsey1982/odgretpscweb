@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/bulma.css';
 import { TextField, Button } from '@mui/material';
 import { IFilterTextFieldsProps } from '../interfaces/IFilterTextFieldProps';
-import AddFilterField from './AddFilterComponent';
+import AddFilterField from './DynamicFilterField';
 import { useGlobalState } from '../contexts/GlobalStateContext';
 
 const FilterTextFields: React.FC<IFilterTextFieldsProps> = ({ filterValues}) =>
@@ -41,7 +41,7 @@ const FilterTextFields: React.FC<IFilterTextFieldsProps> = ({ filterValues}) =>
                  <div style={{width: "100px", float: "left"}}>
                      <TextField sx={{input: {color: 'gray'}}} label="NACIS Code" id="outlined-size-small" defaultValue="filter value" size="small" fullWidth={false}/>
                  </div>
-                 <AddFilterField/>
+
                  <div style={{width: "100px", float: "left"}}>
                  <TextField sx={{input: {color: 'gray'}}} label="Race Ethnicity" id="outlined-size-small" defaultValue="filter value" size="small" fullWidth={false}/>
                  </div>

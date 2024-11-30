@@ -1,6 +1,6 @@
 import {ReactNode} from 'react';
 
-export interface IGlobalStateIdProviderProps {
+export interface IGlobalStateShadowProviderProps {
     children: ReactNode;
   };
   

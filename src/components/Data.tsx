@@ -54,7 +54,7 @@ const Data: React.FC = () => {
         { field: 'dateapproved',  headerName: 'Date Approved', width: 100, filterable: false },
         { field: 'lender', headerName: 'Lender', width: 150, filterable: false },
         { field: 'cd', headerName: 'Congressional District', width: 100, filterable: false },
-        { field: 'geocoded_column', headerName: 'ID', width: 350, sortable: false, filterable: false},
+        { field: 'geocoded_column', headerName: 'GeoData', width: 350, sortable: false, filterable: false},
       ];
       //console.log("column0 filterOperators: " + columns[0].filterOperators);
        
@@ -209,8 +209,8 @@ const Data: React.FC = () => {
                 <div style={{height: '60px'}}></div>   
                 {loading && <p>Loading...</p>}
                 {error && <p>Error: {error}</p>}
-                <div style={{width: "100px", float: "left"}}> 
-                  <Button id="1" onClick={handleGetDataButtonClick} variant="outlined">Get Data</Button>
+                <div style={{width: "125px", float: "left"}}> 
+                  <Button id="1" style={{width: "125px"}} onClick={handleGetDataButtonClick} variant="outlined">Get Data</Button>
                 </div>
                 <DataGrid 
                   style={{color: "black", backgroundColor: "lightgrey"}}

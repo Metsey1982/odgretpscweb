@@ -6,7 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './store/store';
 import { GlobalStateProvider } from './contexts/GlobalStateContext';
-import { GlobalStateIdProvider } from './contexts/GlobalStateIdContext';
+import { GlobalStateIdProvider } from './contexts/GlobalStateShadowContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
