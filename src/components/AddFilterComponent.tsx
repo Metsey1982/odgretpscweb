@@ -1,17 +1,15 @@
-import React, {useState} from 'react';
-import { useGlobalState } from '../contexts/GlobalStateContext';
+import React from 'react';
 import { TextField } from '@mui/material';
+import { useGlobalIdState } from '../contexts/GlobalStateIdContext';
 
 const AddFilterField: React.FC<{ id: string, name: string }> = ({ id, name}) => {
-    const {addItemToGlobalArray} = useGlobalState();
-    const [businessTypeFieldValue, setBusinessTypeFieldValue] = useState<string>("");
+    const {addItemToGlobalIdArray} = useGlobalIdState();
 
-    const handleAddFilter = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleAddFilterToStage = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { value } = e.target;
         console.log('In handleAddFilter - id: ', id, ' name: ', name, ' value: ', value);
         
-        addItemToGlobalArray(name + "_" + value.replace(name + "_",""));
-        setBusinessTypeFieldValue("");
+        addItemToGlobalIdArray(name + "_" + value.replace(name + "_",""));
     };
     const filterTBWidth = (name: string): string => {
         switch (name) {
@@ -38,23 +36,23 @@ const AddFilterField: React.FC<{ id: string, name: string }> = ({ id, name}) => 
                     size="small" 
                     fullWidth={false}
                     type="text"
-                    value={businessTypeFieldValue}                    
-                    onChange={handleAddFilter}
+                    //value={businessTypeFieldValue}                    
+                    onChange={handleAddFilterToStage}
                     label={name}
-                    placeholder="filter value"
+                    //placeholder="filter value"
                 />  
             </div>             
     );
 };
 
 const TextFieldContainer: React.FC = () => {
-    //const names = ['loanrange', 'businessname', 'address', 'city', 'state', 'zip', 'naicscode', 'businesstype', 'raceethnicity', 'gender', 'veteran', 'jobsretained', 'dateapproved', 'lender', 'cd'];
+
     const names = ['loanrange','businessname','address','city','state','zip','naicscode','businesstype','raceethinicity','gender','veteran','jobsretained','dateapproved','lender','cd'];
 
     return (
         <div>
             {names.map((name, index) => (
-                <AddFilterField key={index} id={`textfield-${index}`} name={name}/>
+                <AddFilterField key={index} id={`${name}-${index}`} name={name}/>
             ))}
         </div>
     );

@@ -8,7 +8,6 @@ import Button from '@mui/material/Button';
 import { IPppLoanData } from '../interfaces/IPppLoanData';
 import { IJsonCount } from '../interfaces/IJsonCount';
 import { IFilterValues } from '../interfaces/IFilterValues';
-import FilterTextFields from '../components/Filter';
 import { useGlobalState } from '../contexts/GlobalStateContext';
 import FilterContainer from '../components/FilterContainer';
 
@@ -107,7 +106,7 @@ const Data: React.FC = () => {
     
       const handleGetDataButtonClick = () => {
         //first set filter model
-        applyFilter();
+        //applyFilter();
         //next translate the filter model into formatted api filter string
         var _filterURL = "";
         if(globalArray.length === 0)
@@ -206,7 +205,7 @@ const Data: React.FC = () => {
         <div>
             <div style={{height: '50%', width: '100%' }}>
                 <div style={{height: '60px'}}></div>   
-                <FilterContainer filterValues={filterValues} handleFilterChange={handleFilterChange} />
+                <FilterContainer />
                 <div style={{height: '60px'}}></div>   
                 {loading && <p>Loading...</p>}
                 {error && <p>Error: {error}</p>}

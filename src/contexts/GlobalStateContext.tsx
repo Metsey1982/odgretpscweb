@@ -10,6 +10,7 @@ export const GlobalStateProvider: React.FC<IGlobalStateProviderProps> = ({ child
     useEffect(()=> {
       console.log('globalArray Size: ',globalArray.length)
     },[globalArray]);
+
     const addItemToGlobalArray = (item: string) => {
       console.log('In addItemToGlobalArray');
       if (globalArray.length === 0) {

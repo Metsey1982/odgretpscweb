@@ -6,17 +6,20 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './store/store';
 import { GlobalStateProvider } from './contexts/GlobalStateContext';
+import { GlobalStateIdProvider } from './contexts/GlobalStateIdContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <GlobalStateProvider>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </GlobalStateProvider>
+    <GlobalStateIdProvider>
+      <GlobalStateProvider>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </GlobalStateProvider>
+    </GlobalStateIdProvider>
   </React.StrictMode>
 );
 
