@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import FilterFieldContainer from "./DynamicFilterField";
 import { Button } from '@mui/material';
 import { useGlobalState } from '../contexts/GlobalStateContext';
 import { useGlobalShadowState } from '../contexts/GlobalStateShadowContext';
@@ -25,7 +24,7 @@ const FilterContainer: React.FC = () => {
     cd:  "", 
 
   })
-  const {globalArray,setGlobalArray} = useGlobalState();
+  const {setGlobalArray} = useGlobalState();
   const {globalShadowArray,setGlobalShadowArray} = useGlobalShadowState();
   const {addItemToGlobalShadowArray} = useGlobalShadowState();
 
@@ -73,7 +72,7 @@ const FilterContainer: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className="filter-container">
       <Button id="2" onClick={handleClearFilterButtononClick} variant="outlined" style={{width: "50px", float: "left"}}>Clear</Button>
       <Button id="3" onClick={handleApplyFilterButtononClick} variant="outlined" style={{width: "50px", float: "left"}}>Apply</Button>      {Object.keys(filterValues).map((key) => (
       <DynamicFilterField
@@ -81,6 +80,7 @@ const FilterContainer: React.FC = () => {
           id={key as keyof IFilterValues}
           value={filterValues[key as keyof IFilterValues]}
           handleFilterValueChange={handleFilterValueChange}
+          
         />
       ))}
     </div>

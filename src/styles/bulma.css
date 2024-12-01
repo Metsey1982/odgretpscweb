@@ -11802,3 +11802,11 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
   background-color: #fafafa;
   padding: 3rem 1.5rem 6rem;
 }
+.filter-container {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto; /* Enable horizontal scrolling */
+}
+.filter-container > * {
+  flex-shrink: 0; /* Prevent shrinking */
+}

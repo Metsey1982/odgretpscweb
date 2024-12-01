@@ -7,7 +7,6 @@ import { fetchData,fetchPaginatedData } from '../store/thunks/ppploanThunk';
 import Button from '@mui/material/Button';
 import { IPppLoanData } from '../interfaces/IPppLoanData';
 import { IJsonCount } from '../interfaces/IJsonCount';
-import { IFilterValues } from '../interfaces/IFilterValues';
 import { useGlobalState } from '../contexts/GlobalStateContext';
 import FilterContainer from '../components/FilterContainer';
 
@@ -19,24 +18,6 @@ const Data: React.FC = () => {
     const [rows, setRows] = useState<IPppLoanData[]>([]);
     const [recordCount, setRecordCount] = useState<IJsonCount>({count_0: 0});
     
-    const [filterValues, setFilterValues] = useState<IFilterValues>({
-      loanrange: '',
-      businessname: '',
-      address: '',
-      city: '',
-      state: '',
-      zip: '',
-      naicscode: '',
-      businesstype: '',
-      raceethnicity: '',
-      gender: '',
-      veteran: '',
-      jobsretained: '',
-      dateapproved:  '',
-      lender: '',
-      cd: '',
-      // Add other filter values as needed
-    });
     const {globalArray} = useGlobalState();
     const columns: GridColDef[] = [
         { field: 'loanrange', headerName: 'Loan Range', width: 150, filterable: false },
@@ -151,61 +132,14 @@ const Data: React.FC = () => {
           
       };
  
-      const applyFilter = () => {
-        console.log("in applyfilterbutton code");
-        globalArray.forEach((item) => {
-          const filterType = item.substring(0,item.indexOf("_"));
-          switch(filterType){
-            case "loanrange_": filterValues.loanrange = item.substring(item.indexOf("_")+1);
-            break;
-            case "businessname_": filterValues.businessname = item.substring(item.indexOf("_")+1);
-            break;
-            case "address_": filterValues.address = item.substring(item.indexOf("_")+1);
-            break;
-            case "city_": filterValues.city = item.substring(item.indexOf("_")+1);
-            break;
-            case "state_": filterValues.state = item.substring(item.indexOf("_")+1);
-            break;
-            case "zip_": filterValues.zip = item.substring(item.indexOf("_")+1);
-            break;
-            case "naicscode_": filterValues.naicscode = item.substring(item.indexOf("_")+1);
-            break;
-            case "businesstype_": filterValues.businesstype = item.substring(item.indexOf("_")+1);
-            break;
-            case "raceethnicity_": filterValues.raceethnicity = item.substring(item.indexOf("_")+1);
-            break;
-            case "gender_": filterValues.gender = item.substring(item.indexOf("_")+1);
-            break;
-            case "veteran_": filterValues.veteran = item.substring(item.indexOf("_")+1);
-            break;
-            case "jobsretained_": filterValues.jobsretained = item.substring(item.indexOf("_")+1);
-            break;
-            case "dateapproved_": filterValues.dateapproved = item.substring(item.indexOf("_")+1);
-            break;
-            case "lender_": filterValues.lender = item.substring(item.indexOf("_")+1);
-            break;
-            case "cd_": filterValues.cd = item.substring(item.indexOf("_")+1);
-            break;
-          }
-          console.log('Inserted ',item.substring(item.indexOf("_")+1));
-        });
-        
-        console.log(filterValues);
-      };
-      
-      const handleFilterChange = (name: string, value: string) => {
-        console.log('In handleFilterChange: ', name + ':' + value);
-        setFilterValues((prevValues) => ({ 
-          ...prevValues, [name]: value,
-        }));
-      };
-      
 
     return (
         <div>
             <div style={{height: '50%', width: '100%' }}>
-                <div style={{height: '60px'}}></div>   
+                <div style={{height: '60px'}}></div>  
+                <div style={{height: '50px', width: "100%"}}> 
                 <FilterContainer />
+                </div>
                 <div style={{height: '60px'}}></div>   
                 {loading && <p>Loading...</p>}
                 {error && <p>Error: {error}</p>}
