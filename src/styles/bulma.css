@@ -11810,3 +11810,23 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 .filter-container > * {
   flex-shrink: 0; /* Prevent shrinking */
 }
+.hoverSortAsc {
+  width: 15px;
+  height: '20px';
+  border: '2px solid black';
+  float: 'left';
+}
+.hoverSortAsc:hover {
+  background-color: lightgrey; /* Background color on hover */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+.hoverSortDesc {
+  width: 15px;
+  height: '20px';
+  border: '2px solid black';
+  float: 'none';
+}
+.hoverSortDesc:hover {
+  background-color: lightgrey; /* Background color on hover */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}

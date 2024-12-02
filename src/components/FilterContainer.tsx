@@ -2,7 +2,10 @@ import React, {useState} from 'react';
 import { Button } from '@mui/material';
 import { useGlobalState } from '../contexts/GlobalStateContext';
 import { useGlobalShadowState } from '../contexts/GlobalStateShadowContext';
+import { useGlobalSortState } from '../contexts/GlobalStateSortContext';
+import { useGlobalShadowSortState } from '../contexts/GlobalStateShadowSortContext';
 import { IFilterValues } from '../interfaces/IFilterValues';
+import { ISortValues } from '../interfaces/ISortValues';
 import DynamicFilterField from './DynamicFilterField';
 
 const FilterContainer: React.FC = () => {
@@ -24,14 +27,28 @@ const FilterContainer: React.FC = () => {
     cd:  "", 
 
   })
-  const {setGlobalArray} = useGlobalState();
-  const {globalShadowArray,setGlobalShadowArray} = useGlobalShadowState();
-  const {addItemToGlobalShadowArray} = useGlobalShadowState();
 
+  const [sortValues, setSortValues] = useState<ISortValues>({
+    id: "",
+    sortdirection: "",
+  })
+  const {setGlobalSortArray} = useGlobalSortState();
+  const {setGlobalArray} = useGlobalState();
+  const {globalShadowArray, setGlobalShadowArray, addItemToGlobalShadowArray} = useGlobalShadowState();
+  const {globalShadowSortArray, setGlobalShadowSortArray, addItemToGlobalShadowSortArray} = useGlobalShadowSortState();
+
+  const handleSortValueChange = (Id: keyof IFilterValues, sortdirection: string) => {
+    console.log('In handleSortValueChange Id: ' + Id + ' sort: ' + sortdirection);
+    addItemToGlobalShadowSortArray(Id + sortdirection);
+    setSortValues((prevSortValues) => ({
+      ...prevSortValues,
+      [Id]: sortdirection
+    }));
+  };
   //const handleAddFilterToStage = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
   const handleFilterValueChange = (id: keyof IFilterValues, value: string) => {
       //const { value } = e.target;
-      console.log('In handleAddFilter - id: ', ' value: ', value);      
+      console.log('In handleFilterValueChange - id: ', ' value: ', value);      
       addItemToGlobalShadowArray(id + "_" + value);
       setFilterValues((prevFilterValues) => ({
         ...prevFilterValues,
@@ -42,16 +59,20 @@ const FilterContainer: React.FC = () => {
       const emptyTheGlobalArray: string[] = [];
       setGlobalArray(emptyTheGlobalArray);
       setGlobalShadowArray(emptyTheGlobalArray);
-      clearFilterValues();
+      setGlobalSortArray(emptyTheGlobalArray);
+      setGlobalShadowSortArray(emptyTheGlobalArray);
+      clearFilterSortValues();
   };
   const handleApplyFilterButtononClick = () => {
      console.log('in handleApplyFilterButtononClick')
      setGlobalArray(globalShadowArray);
      const emptyTheGlobalArray: string[] = [];
      setGlobalShadowArray(emptyTheGlobalArray);
-     clearFilterValues();
+     setGlobalSortArray(globalShadowSortArray);
+     setGlobalShadowSortArray(emptyTheGlobalArray);
+     clearFilterSortValues();
   };
-  const clearFilterValues = () => {
+  const clearFilterSortValues = () => {
     setFilterValues({
       loanrange: "",
       businessname: "",
@@ -69,18 +90,22 @@ const FilterContainer: React.FC = () => {
       lender: "",
       cd:  "", 
     });
+    setSortValues({
+      id: "",
+      sortdirection: "",
+    });
   }
 
   return (
     <div className="filter-container">
       <Button id="2" onClick={handleClearFilterButtononClick} variant="outlined" style={{width: "50px", float: "left"}}>Clear</Button>
-      <Button id="3" onClick={handleApplyFilterButtononClick} variant="outlined" style={{width: "50px", float: "left"}}>Apply</Button>      {Object.keys(filterValues).map((key) => (
+      <Button id="3" onClick={handleApplyFilterButtononClick} variant="outlined" style={{width: "50px", float: "left"}}>Apply</Button>{Object.keys(filterValues).map((key) => (
       <DynamicFilterField
           key={key}
           id={key as keyof IFilterValues}
           value={filterValues[key as keyof IFilterValues]}
           handleFilterValueChange={handleFilterValueChange}
-          
+          handleSortValueChange={handleSortValueChange}
         />
       ))}
     </div>

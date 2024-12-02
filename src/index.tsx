@@ -6,20 +6,26 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './store/store';
 import { GlobalStateProvider } from './contexts/GlobalStateContext';
-import { GlobalStateIdProvider } from './contexts/GlobalStateShadowContext';
+import { GlobalStateShadowProvider } from './contexts/GlobalStateShadowContext';
+import { GlobalStateSortProvider } from './contexts/GlobalStateSortContext';
+import { GlobalStateShadowSortProvider } from './contexts/GlobalStateShadowSortContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <GlobalStateIdProvider>
+    <GlobalStateShadowProvider>
       <GlobalStateProvider>
-        <Provider store={store}>
-          <App />
-        </Provider>
+        <GlobalStateShadowSortProvider>
+          <GlobalStateSortProvider>
+            <Provider store={store}>
+              <App />
+            </Provider>
+          </GlobalStateSortProvider>
+        </GlobalStateShadowSortProvider>
       </GlobalStateProvider>
-    </GlobalStateIdProvider>
+    </GlobalStateShadowProvider>
   </React.StrictMode>
 );
 

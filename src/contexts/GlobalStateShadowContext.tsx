@@ -4,7 +4,7 @@ import {IGlobalStateShadowContextProps} from '../interfaces/IGlobalStateShadowCo
 
 const GlobalStateShadowContext = createContext<IGlobalStateShadowContextProps | undefined>(undefined);
 
-export const GlobalStateIdProvider: React.FC<IGlobalStateShadowProviderProps> = ({ children }) => {
+export const GlobalStateShadowProvider: React.FC<IGlobalStateShadowProviderProps> = ({ children }) => {
     const [globalShadowArray, setGlobalShadowArray] = useState<string[]>([]);
 
     useEffect(()=> {

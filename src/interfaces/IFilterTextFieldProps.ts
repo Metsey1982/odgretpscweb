@@ -1,3 +1,4 @@
+import { IFilterValues } from '../interfaces/IFilterValues';
 export interface IFilterTextFieldsProps {
     filterValues: {
       loanrange: string;
@@ -17,5 +18,8 @@ export interface IFilterTextFieldsProps {
       cd: string;
       // Add other filter values as needed
     };
-    handleFilterChange: (name: string, value: string) => void;
+    id:keyof IFilterValues;
+    value: string;
+    handleFilterChange: (id: keyof IFilterValues, value: string) => void;
+    handleSortValueChange: (id: keyof IFilterValues, sort: string) => void;
   }
