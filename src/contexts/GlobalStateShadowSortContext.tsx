@@ -18,23 +18,23 @@ export const GlobalStateShadowSortProvider: React.FC<IGlobalStateShadowSortProvi
           setGlobalShadowSortArray((globalShadowSortArray) => [...globalShadowSortArray, item]);
       } else {
           console.log('In globalSortArray != 0');
-          const filterExactFound = globalShadowSortArray.find(sortExactMatch => sortExactMatch === item);
+          const sortExactFound = globalShadowSortArray.find(sortExactMatch => sortExactMatch === item);
   
-          if (!filterExactFound) {
+          if (!sortExactFound) {
               console.log('!sortExactFound');
-              const sortType = item.substring(0, item.indexOf("_"));
+              const sortType = item;
               console.log('sortType of item: ', sortType);
               const sortTypeFound = globalShadowSortArray.find((str: string) => str.includes(sortType));
               
               if (sortTypeFound) {
-                  console.log('filterTypeFound');
+                  console.log('sortTypeFound');
                   // Create a new array excluding the current filterType, then add the new item
                   const newTempGlobalArray: string[] = globalShadowSortArray.filter((str: string) => !str.includes(sortType));
                   newTempGlobalArray.push(item);  // Add new item
                   console.log('tempGlobalArray Size after insert: ', newTempGlobalArray.length);
                   setGlobalShadowSortArray(newTempGlobalArray);  // Update global array
               } else {
-                  console.log('!filterTypeFound');
+                  console.log('!sortTypeFound');
                   setGlobalShadowSortArray((globalShadowSortArray) => [...globalShadowSortArray, item]);
               }
           }

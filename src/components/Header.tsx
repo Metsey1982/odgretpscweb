@@ -19,7 +19,7 @@ const Header: React.FC = () => {
             <div className="title is-6" style={{width: "50px", float: "none"}}>Order By:</div>
             <div style={{width: "90%", float:"none"}}>
             {globalSortArray.map((item, index) => (
-                   <div style={{float: "left"}} key={index}>{item}&</div>
+                   <div style={{float: "left"}} key={index}>{item},</div>
                 ))}
             </div>
         </div>

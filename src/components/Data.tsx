@@ -9,6 +9,7 @@ import { IPppLoanData } from '../interfaces/IPppLoanData';
 import { IJsonCount } from '../interfaces/IJsonCount';
 import { useGlobalState } from '../contexts/GlobalStateContext';
 import FilterContainer from '../components/FilterContainer';
+import { useGlobalSortState } from '../contexts/GlobalStateSortContext';
 
 const Data: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -19,6 +20,8 @@ const Data: React.FC = () => {
     const [recordCount, setRecordCount] = useState<IJsonCount>({count_0: 0});
     
     const {globalArray} = useGlobalState();
+    const {globalSortArray} = useGlobalSortState();
+
     const columns: GridColDef[] = [
         { field: 'loanrange', headerName: 'Loan Range', width: 150, filterable: false },
         { field: 'businessname', headerName: 'Business Name', width: 150, filterable: false },
@@ -100,9 +103,22 @@ const Data: React.FC = () => {
         }
         _filterURL = _filterURL.replaceAll(" ","+");
         console.log('filterURL-: ', _filterURL);
+        //next set orderby model
+        //next translate the orderby model into formatted api orderby string
+        var _orderbyURL = "";
+        if(globalSortArray.length === 0)
+          _orderbyURL = "noorderby";
+        else
+        {
+          globalSortArray.map((item) => (
+            _orderbyURL = _orderbyURL += item + ","
+          ))
+        }
+        _orderbyURL = _orderbyURL.replaceAll(" ","+");
+        console.log('orderbyURL-: ', _orderbyURL);
         //call api 
         
-        dispatch(fetchData({filterURL: _filterURL}))
+        dispatch(fetchData({filterURL: _filterURL, orderbyURL: _orderbyURL}))
           .unwrap()
           .then((originalPromiseResult) => {
             //.toString()console.log(originalPromiseResult.jsondata);

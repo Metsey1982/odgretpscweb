@@ -51,7 +51,7 @@ const DynamicFilterField: React.FC<FilterFieldProps> = ({ id, value, handleFilte
                         src={DownArrowImage} 
                         alt="Sort Desc" 
                         className="hoverSortDesc" 
-                        onClick={() => handleSortValueChange(id, "+DESC")}
+                        onClick={() => handleSortValueChange(id, "_d")}
                     />
                 </div>
 

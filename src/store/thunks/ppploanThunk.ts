@@ -5,21 +5,22 @@ import Config from '../../../src/configurations/config';
 
 
 // Initial Pull of Data
-export const fetchData = createAsyncThunk<IOuterJsonObject, {filterURL: string}, { rejectValue: string }>(
+export const fetchData = createAsyncThunk<IOuterJsonObject, {filterURL: string, orderbyURL: string}, { rejectValue: string }>(
   'ppploanData/fetchData',
-  async ({filterURL}, { rejectWithValue }) => {
+  async ({filterURL,orderbyURL},{ rejectWithValue }) => {
     try {
       //const baseUrl = 'https://ppploan-gdgbctfqa0c2fda4.eastus2-01.azurewebsites.net/api/PPPLoan/paginated/';
       const baseUrl = `${Config.apiBaseUrl}`;
       const filterUrl = `${Config.apiWithFilterUrl}`;
-      const varUrl = `${filterURL}`;
-      console.log('api call url: ',baseUrl + filterUrl + varUrl);
+      const varFilterUrl = `${filterURL}/`;
+      const varOrderByUrl = `${orderbyURL}`;
+      console.log('api call url: ',baseUrl + filterUrl + varFilterUrl + varOrderByUrl);
 
       //const params = page.toString() + '/' + pageSize.toString();
       //const params = new URLSearchParams({page.toString(), pageSize: pageSize.toString() });
       //const url = `${baseUrl}${params.toString()}`;
       //const response = await fetch('https://ppploan-gdgbctfqa0c2fda4.eastus2-01.azurewebsites.net/api/PPPLoan/paginated/1/5');
-      const response = await fetch(baseUrl + filterUrl + varUrl);
+      const response = await fetch(baseUrl + filterUrl + varFilterUrl + varOrderByUrl);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
