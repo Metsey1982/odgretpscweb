@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {Provider} from 'react-redux';
-import './styles/bulma.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './store/store';
@@ -9,6 +8,8 @@ import { GlobalStateProvider } from './contexts/GlobalStateContext';
 import { GlobalStateShadowProvider } from './contexts/GlobalStateShadowContext';
 import { GlobalStateSortProvider } from './contexts/GlobalStateSortContext';
 import { GlobalStateShadowSortProvider } from './contexts/GlobalStateShadowSortContext';
+import { GlobalSortComponentAscProvider } from './contexts/GlobalStateSortControlAscContext';
+import { GlobalSortComponentDescProvider } from './contexts/GlobalStateSortControlDescContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,9 +20,13 @@ root.render(
       <GlobalStateProvider>
         <GlobalStateShadowSortProvider>
           <GlobalStateSortProvider>
-            <Provider store={store}>
-              <App />
-            </Provider>
+            <GlobalSortComponentAscProvider>
+              <GlobalSortComponentDescProvider>
+                <Provider store={store}>
+                  <App />
+                </Provider>
+              </GlobalSortComponentDescProvider>
+            </GlobalSortComponentAscProvider>
           </GlobalStateSortProvider>
         </GlobalStateShadowSortProvider>
       </GlobalStateProvider>

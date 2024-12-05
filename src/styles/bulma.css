@@ -11813,20 +11813,47 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 .hoverSortAsc {
   width: 15px;
   height: '20px';
-  border: '2px solid black';
   float: 'left';
 }
 .hoverSortAsc:hover {
-  background-color: lightgrey; /* Background color on hover */
-  cursor: pointer; /* Change cursor to pointer on hover */
+  /* Background color on hover */
+   cursor: pointer; /* Change cursor to pointer on hover */
+   border-style:solid;
+   border-color:black;
+   border-width:thin;
+   background-color:#eafeff;
+ }
+.hoverSortAscActive {
+  border-style:solid;
+  border-color:black;
+  border-width:thin;
+  background-color:#eafeff; 
 }
+
 .hoverSortDesc {
   width: 15px;
   height: '20px';
-  border: '2px solid black';
   float: 'none';
 }
 .hoverSortDesc:hover {
-  background-color: lightgrey; /* Background color on hover */
-  cursor: pointer; /* Change cursor to pointer on hover */
+    border-style:solid;
+    border-color:black;
+    border-width:thin;
+    background-color:#eafeff;
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.hoverSortDescActive {
+  border-style:solid;
+  border-color:black;
+  border-width:thin;
+  background-color:#eafeff; 
+}
+
+.even-row {
+  background-color: #cbf0fb;
+}
+
+.odd-row {
+  background-color: #ffffff;
 }

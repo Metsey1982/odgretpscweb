@@ -1,12 +1,11 @@
 import React from 'react';
-import '../styles/bulma.css';
+import { Container, Box } from '@mui/material';
 
 const Footer: React.FC = () => {
 
     return (
-        <div>
-            <h1>Footer Component - will contain footer components and or messages</h1>
-        </div>
+            <Box>Footer Component - will contain footer components and or messages</Box>
+
     );
 };
 

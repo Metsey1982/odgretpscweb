@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import '../styles/bulma.css';
 import { DataGrid, GridColDef, GridPaginationModel, GridSortModel} from '@mui/x-data-grid';
 import { RootState, AppDispatch } from '../store/store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +9,7 @@ import { IJsonCount } from '../interfaces/IJsonCount';
 import { useGlobalState } from '../contexts/GlobalStateContext';
 import FilterContainer from '../components/FilterContainer';
 import { useGlobalSortState } from '../contexts/GlobalStateSortContext';
+import { Box } from '@mui/material';
 
 const Data: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -138,7 +138,7 @@ const Data: React.FC = () => {
             const parsedJsonData = Array.isArray(originalPromiseResult.jsondata)
               ? originalPromiseResult.jsondata
               : JSON.parse(originalPromiseResult.jsondata);
-              //console.log("parsedJsonData: " + parsedJsonData);
+              //consolepadding.log("parsedJsonData: " + parsedJsonData);
             // Update rows state with parsed data
             setRows(parsedJsonData);
           })
@@ -150,23 +150,30 @@ const Data: React.FC = () => {
  
 
     return (
-        <div>
-            <div style={{height: '50%', width: '100%' }}>
-                <div style={{height: '60px'}}></div>  
-                <div style={{height: '50px', width: "100%"}}> 
+
+            <Box style={{height: '50%', width: '100%', float: 'none' }}>
+                <Box style={{height: '50px', width: "100%"}}> 
                 <FilterContainer />
-                </div>
-                <div style={{height: '60px'}}></div>   
+                </Box>
+ 
+
+                <Box sx={{width: "100%",paddingTop: "20px" }}> 
                 {loading && <p>Loading...</p>}
                 {error && <p>Error: {error}</p>}
-                <div style={{width: "125px", float: "left"}}> 
-                  <Button id="1" style={{width: "125px"}} onClick={handleGetDataButtonClick} variant="outlined">Get Data</Button>
-                </div>
+                <Button id="1" style={{width: "90px", height: "25px", fontSize:"12px"}} onClick={handleGetDataButtonClick} variant="outlined">Get Data</Button>
                 <DataGrid 
-                  style={{color: "black", backgroundColor: "lightgrey"}}
+                  style={{color: 'black', backgroundColor: '#cbf0fb',border: "2px solid"}}
                   columns={columns} 
-                  //rows"={JSON.parse(JSON.stringify(ppploanData.jsondata.toString()))} 
                   rows={rows}
+                  rowHeight={25}
+                  columnHeaderHeight={20}
+                  sx={{
+                    '& .MuiDataGrid-cell': {
+                      fontSize: '14px', // Adjust the font size as needed
+                    },
+                  }}
+                  getRowClassName={(params) => {
+                    return params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row';}}
                   paginationMode='server'
                   rowCount={recordCount.count_0 | 0}
                   paginationModel={paginationModel}
@@ -175,9 +182,9 @@ const Data: React.FC = () => {
                   onSortModelChange={handleSortModelChange}
                   getRowId={(row) => `${row.loanrange}-${row.businessname}-${row.address}`} // Specify a unique ID based on
                 />
-            </div>
+                </Box>
+            </Box>
 
-        </div>
     );
 };
 export default Data;

@@ -1,11 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { Button } from '@mui/material';
+import { Stack} from '@mui/material';
 import { useGlobalState } from '../contexts/GlobalStateContext';
 import { useGlobalShadowState } from '../contexts/GlobalStateShadowContext';
 import { useGlobalSortState } from '../contexts/GlobalStateSortContext';
 import { useGlobalShadowSortState } from '../contexts/GlobalStateShadowSortContext';
 import { IFilterValues } from '../interfaces/IFilterValues';
 import { ISortValues } from '../interfaces/ISortValues';
+import {GlobalSortComponentAscContext} from '../contexts/GlobalStateSortControlAscContext'
+import {GlobalSortComponentDescContext} from '../contexts/GlobalStateSortControlDescContext'
 import DynamicFilterField from './DynamicFilterField';
 
 const FilterContainer: React.FC = () => {
@@ -27,7 +30,16 @@ const FilterContainer: React.FC = () => {
     cd:  "", 
 
   })
-
+  const sortControlAscContext = useContext(GlobalSortComponentAscContext);
+  if(!sortControlAscContext){
+    throw new Error('GlobalSortComponentAscContext must be used within a GlobalSortComponentAscProvider');
+  }
+  const { resetSortControlAscComponents } = sortControlAscContext;
+  const sortControlDescContext = useContext(GlobalSortComponentDescContext);
+  if(!sortControlDescContext){
+    throw new Error('GlobalSortComponentDesccContext must be used within a GlobalSortComponentDescProvider');
+  }
+  const { resetSortControlDescComponents } = sortControlDescContext;
   const [sortValues, setSortValues] = useState<ISortValues>({
     id: "",
     sortdirection: "",
@@ -37,7 +49,8 @@ const FilterContainer: React.FC = () => {
   const {globalShadowArray, setGlobalShadowArray, addItemToGlobalShadowArray} = useGlobalShadowState();
   const {globalShadowSortArray, setGlobalShadowSortArray, addItemToGlobalShadowSortArray} = useGlobalShadowSortState();
 
-  const handleSortValueChange = (Id: keyof IFilterValues, sortdirection: string) => {
+  const setSortValueArray = (Id: keyof IFilterValues, sortdirection: string) => {
+
     console.log('In handleSortValueChange Id: ' + Id + ' sort: ' + sortdirection);
     addItemToGlobalShadowSortArray(Id + sortdirection);
     setSortValues((prevSortValues) => ({
@@ -62,6 +75,8 @@ const FilterContainer: React.FC = () => {
       setGlobalSortArray(emptyTheGlobalArray);
       setGlobalShadowSortArray(emptyTheGlobalArray);
       clearFilterSortValues();
+      resetSortControlAscComponents();
+      resetSortControlDescComponents();
   };
   const handleApplyFilterButtononClick = () => {
      console.log('in handleApplyFilterButtononClick')
@@ -71,6 +86,8 @@ const FilterContainer: React.FC = () => {
      setGlobalSortArray(globalShadowSortArray);
      setGlobalShadowSortArray(emptyTheGlobalArray);
      clearFilterSortValues();
+     resetSortControlAscComponents();
+     resetSortControlDescComponents();
   };
   const clearFilterSortValues = () => {
     setFilterValues({
@@ -97,17 +114,25 @@ const FilterContainer: React.FC = () => {
   }
 
   return (
-    <div className="filter-container">
-      <Button id="2" onClick={handleClearFilterButtononClick} variant="outlined" style={{width: "50px", float: "left"}}>Clear</Button>
-      <Button id="3" onClick={handleApplyFilterButtononClick} variant="outlined" style={{width: "50px", float: "left"}}>Apply</Button>{Object.keys(filterValues).map((key) => (
-      <DynamicFilterField
-          key={key}
-          id={key as keyof IFilterValues}
-          value={filterValues[key as keyof IFilterValues]}
-          handleFilterValueChange={handleFilterValueChange}
-          handleSortValueChange={handleSortValueChange}
-        />
-      ))}
+    <div>
+  
+        <Button id="2" onClick={handleClearFilterButtononClick} variant="outlined" style={{float: "left", height: "25px", fontSize:"12px"}}>Clear</Button>
+        <Button id="3" onClick={handleApplyFilterButtononClick} variant="outlined" style={{float: "none", height: "25px", fontSize:"12px"}}>Apply</Button>
+          <Stack className="filter-container" direction="row">
+            {Object.keys(filterValues).map((key) => (
+            <DynamicFilterField
+                key={key}
+                id={key as keyof IFilterValues}
+                value={filterValues[key as keyof IFilterValues]}
+                handleFilterValueChange={handleFilterValueChange}
+                setSortValueArray={setSortValueArray}
+                
+              />
+              
+
+          ))}
+          </Stack>
+
     </div>
   );
 };
