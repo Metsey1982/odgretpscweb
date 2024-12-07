@@ -8,7 +8,8 @@ interface Config {
   }
   
   const config: Config = {
-    apiBaseUrl: 'https://localhost:7294/api/PPPLoan',
+    apiBaseUrl: 'https://ppploan-gdgbctfqa0c2fda4.eastus2-01.azurewebsites.net/api/PPPLoan',
+    //apiBaseUrl: 'https://localhost:7294/api/PPPLoan',
     apiPaginatedUrl: '/serverpaginated/',
     apiWithFilterUrl: '/getwithfilter/'
   };

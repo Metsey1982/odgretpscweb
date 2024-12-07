@@ -23,7 +23,7 @@ const Data: React.FC = () => {
     const {globalSortArray} = useGlobalSortState();
 
     const columns: GridColDef[] = [
-        { field: 'loanrange', headerName: 'Loan Range', width: 150, sortable: false,filterable: false },
+        { field: 'loanrange', headerName: 'Loan#5dade2 Range', width: 150, sortable: false,filterable: false },
         { field: 'businessname', headerName: 'Business Name', width: 150, sortable: false, filterable: false },
         { field: 'address', headerName: 'Street Address', width: 150, sortable: false, filterable: false },
         { field: 'city', headerName: 'City', width: 150,  sortable: false,filterable: false },
@@ -175,7 +175,7 @@ const Data: React.FC = () => {
                 {error && <p>Error: {error}</p>}
                 <Button id="1" style={{color: "#5dade2",width: "90px", height: "25px", fontSize:"12px"}} onClick={handleGetDataButtonClick} variant="outlined">Get Data</Button>
                 <DataGrid 
-                  style={{fontSize: '14px',color: 'black', backgroundColor: '#5dade2',border: "2px solid"}}
+                  style={{fontSize: '14px',color: 'black', backgroundColor: 'lightyellow',border: "1px solid",borderColor: "lightgrey"}}
                   columns={columns} 
                   rows={rows}
                   rowHeight={25}
