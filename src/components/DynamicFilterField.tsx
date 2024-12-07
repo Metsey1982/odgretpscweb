@@ -12,21 +12,27 @@ const DynamicFilterField: React.FC<FilterFieldProps> = ({ id, value, handleFilte
     if(!sortControlAscContext){
         throw new Error('GlobalSortComponentAscContext must be used within a GlobalSortComponentAscProvider');
     }
-    const { sortControlAscComponents, setSortControlAscComponent } = sortControlAscContext;
+    const { sortControlAscComponents, setSortControlAscComponent, resetSortControlAscComponent } = sortControlAscContext;
     
     const sortControlDescContext = useContext(GlobalSortComponentDescContext);
     if(!sortControlDescContext){
         throw new Error('GlobalSortComponentDescContext must be used within a GlobalSortComponentDescProvider');
     }
-    const { sortControlDescComponents, setSortControlDescComponent } = sortControlDescContext;
+    const { sortControlDescComponents, setSortControlDescComponent, resetSortControlDescComponent } = sortControlDescContext;
 
     const handleSortValueChange = (Id: keyof IFilterValues, sortdirection: string)  => {
-        // Logic to change color based on current color
+        // Logic to change color based on current {componentClassDescName}color
         setSortValueArray(Id,sortdirection);
         if(sortdirection === "")
+        {
+            resetSortControlDescComponent(id);
             setSortControlAscComponent(Id);
+        }
         else
+        {
+            resetSortControlAscComponent(id);
             setSortControlDescComponent(Id);
+        }
     };
    
     const filterTBWidth = (Id: keyof IFilterValues): string => {
@@ -54,7 +60,7 @@ const DynamicFilterField: React.FC<FilterFieldProps> = ({ id, value, handleFilte
                 <div style={{float: 'left', paddingTop: '5px'}}> 
                     <TextField 
                         sx={{width: filterTBWidth(id), float: "left",'& .MuiOutlinedInput-input': {
-                            fontSize: '14px' // Adjust the font size as needed
+                            fontSize: '12px' // Adjust the font size as needed
                         }
                     }}
                 id={id as string} 
@@ -66,6 +72,8 @@ const DynamicFilterField: React.FC<FilterFieldProps> = ({ id, value, handleFilte
                         onChange={(e) => handleFilterValueChange(id, e.target.value)}
                         label={id}
                         placeholder="filter value"
+                        title={"Filter " + id}
+                        
                     /> 
     
                 </div> 
@@ -73,6 +81,7 @@ const DynamicFilterField: React.FC<FilterFieldProps> = ({ id, value, handleFilte
                     <img 
                         src={UpArrowImage} 
                         alt="Sort Asc" 
+                        title="Sort Ascending"
                         className={componentClassAscName} 
                         onClick={() => handleSortValueChange(id, "")}
                     />
@@ -80,8 +89,9 @@ const DynamicFilterField: React.FC<FilterFieldProps> = ({ id, value, handleFilte
                         src={DownArrowImage} 
                         alt="Sort Desc" 
                         className={componentClassDescName}  
+                        title="Sort Descending"
                         onClick={() => handleSortValueChange(id, "_d")}
-                    />{componentClassDescName}
+                    />
                 </div>
 
             </div>            

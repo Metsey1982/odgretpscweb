@@ -23,21 +23,21 @@ const Data: React.FC = () => {
     const {globalSortArray} = useGlobalSortState();
 
     const columns: GridColDef[] = [
-        { field: 'loanrange', headerName: 'Loan Range', width: 150, filterable: false },
-        { field: 'businessname', headerName: 'Business Name', width: 150, filterable: false },
+        { field: 'loanrange', headerName: 'Loan Range', width: 150, sortable: false,filterable: false },
+        { field: 'businessname', headerName: 'Business Name', width: 150, sortable: false, filterable: false },
         { field: 'address', headerName: 'Street Address', width: 150, sortable: false, filterable: false },
-        { field: 'city', headerName: 'City', width: 150, filterable: false },
-        { field: 'state', headerName: 'State', width: 100, filterable: false },
-        { field: 'zip', headerName: 'Zipcode', width: 100, filterable: false },
-        { field: 'naicscode', headerName: 'NACIS Code', width: 100,filterable: false },
-        { field: 'businesstype', headerName: 'Business Type', width: 100, filterable: false },
-        { field: 'raceethnicity', headerName: 'Race Ethnicity', width: 100, filterable: false },
-        { field: 'gender', headerName: 'Gender', width: 100, filterable: false },
-        { field: 'veteran', headerName: 'Veteran', width: 100, filterable: false },
-        { field: 'jobsretained', headerName: 'Jobs Retained', width: 100, filterable: false },
-        { field: 'dateapproved',  headerName: 'Date Approved', width: 100, filterable: false },
-        { field: 'lender', headerName: 'Lender', width: 150, filterable: false },
-        { field: 'cd', headerName: 'Congressional District', width: 100, filterable: false },
+        { field: 'city', headerName: 'City', width: 150,  sortable: false,filterable: false },
+        { field: 'state', headerName: 'State', width: 100, sortable: false, filterable: false },
+        { field: 'zip', headerName: 'Zipcode', width: 100, sortable: false, filterable: false },
+        { field: 'naicscode', headerName: 'NACIS Code', width: 100, sortable: false,filterable: false },
+        { field: 'businesstype', headerName: 'Business Type', width: 100, sortable: false, filterable: false },
+        { field: 'raceethnicity', headerName: 'Race Ethnicity', width: 100, sortable: false, filterable: false },
+        { field: 'gender', headerName: 'Gender', width: 100, sortable: false, filterable: false },
+        { field: 'veteran', headerName: 'Veteran', width: 100, sortable: false, filterable: false },
+        { field: 'jobsretained', headerName: 'Jobs Retained', width: 100, sortable: false, filterable: false },
+        { field: 'dateapproved',  headerName: 'Date Approved', width: 100, sortable: false, filterable: false },
+        { field: 'lender', headerName: 'Lender', width: 150, sortable: false, filterable: false },
+        { field: 'cd', headerName: 'Congressional District', width: 100, sortable: false, filterable: false },
         { field: 'geocoded_column', headerName: 'GeoData', width: 350, sortable: false, filterable: false},
       ];
       //console.log("column0 filterOperators: " + columns[0].filterOperators);
@@ -56,11 +56,49 @@ const Data: React.FC = () => {
         console.log('Sort Changed: ', model);
         //program in data fetch with 
       };
- 
+      const setOrderByURL = () => {
+        //next set orderby model
+        //next translate the orderby model into formatted api orderby string
+        let _orderbyURL = "";
+        if(globalSortArray.length === 0)
+          _orderbyURL = "noorderby";
+        else
+        {
+          globalSortArray.map((item) => (
+            _orderbyURL = _orderbyURL += item + ","
+          ))
+        }
+        _orderbyURL = _orderbyURL.replaceAll(" ","+");
+        console.log('orderbyURL-: ', _orderbyURL);
+        return _orderbyURL;
+      }
+      const setFilterURL = () => {
+        //first set filter model
+        //applyFilter();
+        //next translate the filter model into formatted api filter string
+        let _filterURL = "";
+        if(globalArray.length === 0)
+          _filterURL = "nofilter";
+        else
+        {
+          globalArray.map((item) => (
+            _filterURL = _filterURL += item.replace("_","=") + "&"
+          ))
+        }
+        _filterURL = _filterURL.replaceAll(" ","+");
+        console.log('filterURL-: ', _filterURL);
+        return _filterURL;
+        
+      }
+      
       const handlePageChange = (model: GridPaginationModel) => {
+       
+        let _filterURL = setFilterURL();
+        let _orderbyURL = setOrderByURL();
+
         setPaginationModel(model);
         console.log('page: ' + paginationModel.page.toString() + ' and pageSize: ' + paginationModel.pageSize.toString());   
-        dispatch(fetchPaginatedData({ page: model.page, pageSize: model.pageSize, filterModel: "nofilter", sortModel: "noorderby" }))
+        dispatch(fetchPaginatedData({ page: model.page, pageSize: model.pageSize, filterModel: _filterURL, sortModel: _orderbyURL }))
           .unwrap()
           .then((originalPromiseResult) => {
             //console.log(originalPromiseResult.jsondata);
@@ -89,34 +127,9 @@ const Data: React.FC = () => {
      };
     
       const handleGetDataButtonClick = () => {
-        //first set filter model
-        //applyFilter();
-        //next translate the filter model into formatted api filter string
-        var _filterURL = "";
-        if(globalArray.length === 0)
-          _filterURL = "nofilter";
-        else
-        {
-          globalArray.map((item) => (
-            _filterURL = _filterURL += item.replace("_","=") + "&"
-          ))
-        }
-        _filterURL = _filterURL.replaceAll(" ","+");
-        console.log('filterURL-: ', _filterURL);
-        //next set orderby model
-        //next translate the orderby model into formatted api orderby string
-        var _orderbyURL = "";
-        if(globalSortArray.length === 0)
-          _orderbyURL = "noorderby";
-        else
-        {
-          globalSortArray.map((item) => (
-            _orderbyURL = _orderbyURL += item + ","
-          ))
-        }
-        _orderbyURL = _orderbyURL.replaceAll(" ","+");
-        console.log('orderbyURL-: ', _orderbyURL);
-        //call api 
+
+        let _filterURL = setFilterURL();
+        let _orderbyURL = setOrderByURL();
         
         dispatch(fetchData({filterURL: _filterURL, orderbyURL: _orderbyURL}))
           .unwrap()
@@ -160,9 +173,9 @@ const Data: React.FC = () => {
                 <Box sx={{width: "100%",paddingTop: "20px" }}> 
                 {loading && <p>Loading...</p>}
                 {error && <p>Error: {error}</p>}
-                <Button id="1" style={{width: "90px", height: "25px", fontSize:"12px"}} onClick={handleGetDataButtonClick} variant="outlined">Get Data</Button>
+                <Button id="1" style={{color: "#5dade2",width: "90px", height: "25px", fontSize:"12px"}} onClick={handleGetDataButtonClick} variant="outlined">Get Data</Button>
                 <DataGrid 
-                  style={{color: 'black', backgroundColor: '#cbf0fb',border: "2px solid"}}
+                  style={{fontSize: '14px',color: 'black', backgroundColor: '#5dade2',border: "2px solid"}}
                   columns={columns} 
                   rows={rows}
                   rowHeight={25}
@@ -171,6 +184,25 @@ const Data: React.FC = () => {
                     '& .MuiDataGrid-cell': {
                       fontSize: '14px', // Adjust the font size as needed
                     },
+                    '& .MuiTablePagination-toolbar': {
+                        color: 'black', // Change the color of the "Rows per page" text
+                    },
+                    '& .MuiTablePagination-actions': {
+                        color: 'black',
+                    },
+                    '& .MuiTablePagination-selectIcon': {
+                        color: 'black',
+                    },
+                    '& .MuiDataGrid-row': {
+                      '&:hover': {
+                        backgroundColor: 'lightblue',
+                        cursor: 'pointer',
+                      },
+                    },
+                    '& .MuiDataGrid-row.Mui-selected': {
+                        color: 'black', // Style for selected rows
+
+                    },
                   }}
                   getRowClassName={(params) => {
                     return params.indexRelativeToCurrentPage % 2 === 0 ? 'even-row' : 'odd-row';}}
@@ -178,6 +210,7 @@ const Data: React.FC = () => {
                   rowCount={recordCount.count_0 | 0}
                   paginationModel={paginationModel}
                   pagination
+
                   onPaginationModelChange={handlePageChange}
                   onSortModelChange={handleSortModelChange}
                   getRowId={(row) => `${row.loanrange}-${row.businessname}-${row.address}`} // Specify a unique ID based on

@@ -4,7 +4,7 @@ import { Container, Box } from '@mui/material';
 const Footer: React.FC = () => {
 
     return (
-            <Box>Footer Component - will contain footer components and or messages</Box>
+            <Box sx={{width: "100%", textAlign: "center", fontWeight: "bold",color: "black", backgroundColor: '#5dade2'}}>Mad Shark AB-Intel LLC</Box>
 
     );
 };

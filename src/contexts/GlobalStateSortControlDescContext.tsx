@@ -23,10 +23,18 @@ const  GlobalSortComponentDescProvider: React.FC<ISortColumnDescProviderProps> =
         {id: 'cd', classNameValue:'hoverSortDesc'},   
     ]);
     const setSortControlDescComponent = (id: string) => {
-        console.log('In resetSortControlAscComponents');
+        console.log('In setSortControlDescComponents for id: ', id);
         setSortControlDescComponents(components => 
             components.map(component =>
                 component.id === id ? {...component, classNameValue:'hoverSortDescActive'} : component
+            )
+        );
+    };
+    const resetSortControlDescComponent = (id: string) => {
+        console.log('In resetSortControlDescComponent for id: ', id);
+        setSortControlDescComponents(components => 
+            components.map(component =>
+                component.id === id ? {...component, classNameValue:'hoverSortDesc'} : component
             )
         );
     };
@@ -39,7 +47,7 @@ const  GlobalSortComponentDescProvider: React.FC<ISortColumnDescProviderProps> =
         setSortControlDescComponents(resetComponents);
     };
       return (
-        < GlobalSortComponentDescContext.Provider value={{ sortControlDescComponents, setSortControlDescComponent,resetSortControlDescComponents}}>
+        < GlobalSortComponentDescContext.Provider value={{ sortControlDescComponents, setSortControlDescComponent,resetSortControlDescComponent,resetSortControlDescComponents}}>
           {children}
         </ GlobalSortComponentDescContext.Provider>
       );

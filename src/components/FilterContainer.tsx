@@ -116,8 +116,8 @@ const FilterContainer: React.FC = () => {
   return (
     <div>
   
-        <Button id="2" onClick={handleClearFilterButtononClick} variant="outlined" style={{float: "left", height: "25px", fontSize:"12px"}}>Clear</Button>
-        <Button id="3" onClick={handleApplyFilterButtononClick} variant="outlined" style={{float: "none", height: "25px", fontSize:"12px"}}>Apply</Button>
+        <Button id="2" onClick={handleClearFilterButtononClick} variant="outlined" style={{color: "#5dade2",float: "left", height: "25px", fontSize:"12px"}}>Clear</Button>
+        <Button id="3" onClick={handleApplyFilterButtononClick} variant="outlined" style={{color: "#5dade2",float: "none", height: "25px", fontSize:"12px"}}>Apply</Button>
           <Stack className="filter-container" direction="row">
             {Object.keys(filterValues).map((key) => (
             <DynamicFilterField

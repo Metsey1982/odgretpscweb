@@ -21,11 +21,15 @@ export const GlobalStateShadowSortProvider: React.FC<IGlobalStateShadowSortProvi
           const sortExactFound = globalShadowSortArray.find(sortExactMatch => sortExactMatch === item);
   
           if (!sortExactFound) {
-              console.log('!sortExactFound');
-              const sortType = item;
+              console.log('!sortExactFound')
+
+              let sortType: string = ''; 
+              sortType = item.indexOf("_d") > 0 ? item.substring(0, item.indexOf("_d")) : item;              
+
               console.log('sortType of item: ', sortType);
-              const sortTypeFound = globalShadowSortArray.find((str: string) => str.includes(sortType));
               
+              const sortTypeFound = globalShadowSortArray.find((str: string) => str.includes(sortType));
+               
               if (sortTypeFound) {
                   console.log('sortTypeFound');
                   // Create a new array excluding the current filterType, then add the new item
