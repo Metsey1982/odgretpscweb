@@ -40,7 +40,7 @@ const FilterContainer: React.FC = () => {
     throw new Error('GlobalSortComponentDesccContext must be used within a GlobalSortComponentDescProvider');
   }
   const { resetSortControlDescComponents } = sortControlDescContext;
-  const [sortValues, setSortValues] = useState<ISortValues>({
+  const [, setSortValues] = useState<ISortValues>({
     id: "",
     sortdirection: "",
   })
@@ -53,8 +53,9 @@ const FilterContainer: React.FC = () => {
 
     console.log('In handleSortValueChange Id: ' + Id + ' sort: ' + sortdirection);
     addItemToGlobalShadowSortArray(Id + sortdirection);
-    setSortValues((prevSortValues) => ({
-      ...prevSortValues,
+    
+    setSortValues((sortValues) => ({
+      ...sortValues,
       [Id]: sortdirection
     }));
   };
