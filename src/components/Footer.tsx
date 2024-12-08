@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Box } from '@mui/material';
+import { Box } from '@mui/material';
 import graylingFish from '../images/freepik__upload__71371.jpeg';
 
 const Footer: React.FC = () => {
