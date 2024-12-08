@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
     return (
             <Box sx={{width: "100%", textAlign: "center", fontWeight: "normal",color: "a8b0b4", backgroundColor: 'white'}}>
                 &copy; {currentYear} Grayling    
-                <img src={graylingFish} style={{width: '50px', height: "auto", paddingTop: "4px"}}></img>
+                <img alt="Grayling ABI LLC" src={graylingFish} style={{width: '50px', height: "auto", paddingTop: "4px"}}></img>
                 Business-Intel LLC  
             </Box>
 
