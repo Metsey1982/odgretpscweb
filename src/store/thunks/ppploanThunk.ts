@@ -10,17 +10,20 @@ export const fetchData = createAsyncThunk<IOuterJsonObject, {filterURL: string, 
   async ({filterURL,orderbyURL},{ rejectWithValue }) => {
     try {
       //const baseUrl = 'https://ppploan-gdgbctfqa0c2fda4.eastus2-01.azurewebsites.net/api/PPPLoan/paginated/';
-      const baseUrl = `${Config.apiBaseUrl}`;
-      const filterUrl = `${Config.apiWithFilterUrl}`;
-      const varFilterUrl = `${filterURL}/`;
-      const varOrderByUrl = `${orderbyURL}`;
-      console.log('api call url: ',baseUrl + filterUrl + varFilterUrl + varOrderByUrl);
+      //const baseUrl = `${Config.apiBaseUrl}`;
+      const baseUrl = `${Config.azfBaseUrl}`;
+      //const filterUrl = `${Config.apiWithFilterUrl}`;
+      const filterRouteUrl = `${Config.azfWithFilterUrl}`;
+      const FilterUrl = `${filterURL}/`;
+      const OrderByUrl = `${orderbyURL}`;
+      const azfKey = `${Config.azfKey}}`;
+      //console.log('api call url: ',baseUrl + filterRouteUrl + FilterUrl + OrderByUrl + azfKey);
 
       //const params = page.toString() + '/' + pageSize.toString();
       //const params = new URLSearchParams({page.toString(), pageSize: pageSize.toString() });
       //const url = `${baseUrl}${params.toString()}`;
       //const response = await fetch('https://ppploan-gdgbctfqa0c2fda4.eastus2-01.azurewebsites.net/api/PPPLoan/paginated/1/5');
-      const response = await fetch(baseUrl + filterUrl + varFilterUrl + varOrderByUrl);
+      const response = await fetch(baseUrl + filterRouteUrl + FilterUrl + OrderByUrl + azfKey);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -39,16 +42,18 @@ export const fetchPaginatedData = createAsyncThunk<IOuterJsonObject, {pageSize: 
   async ({pageSize,page,filterModel,sortModel}, { rejectWithValue }) => {
     try {
       //const baseUrl = 'https://ppploan-gdgbctfqa0c2fda4.eastus2-01.azurewebsites.net/api/PPPLoan/paginated/';
-      const baseUrl = `${Config.apiBaseUrl}`;
-      const apiPaginatedUrl = `${Config.apiPaginatedUrl}`;
-
+      //const baseUrl = `${Config.apiBaseUrl}`;
+      //const apiPaginatedUrl = `${Config.apiPaginatedUrl}`;
+      const baseUrl = `${Config.azfBaseUrl}`;
+      const paginatedRouteUrl = `${Config.azfPaginatedUrl}`;
+      const azfKey = `${Config.azfKey}}`;
       //const params = page.toString() + '/' + pageSize.toString();
       //const params = new URLSearchParams({page.toString(), pageSize: pageSize.toString() });
       //const url = `${baseUrl}${params.toString()}`;
       
-      const varUrl = `${pageSize}/${page}/${filterModel}/${sortModel}`;
+      const paramUrl = `${pageSize}/${page}/${filterModel}/${sortModel}`;
 
-      const response = await fetch(baseUrl + apiPaginatedUrl + varUrl);
+      const response = await fetch(baseUrl + paginatedRouteUrl + paramUrl + azfKey);
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
