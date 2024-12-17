@@ -7,7 +7,6 @@ interface Config {
     azfBaseUrl: string;
     azfPaginatedUrl: string;
     azfWithFilterUrl: string;
-    azfKey: string;
     // Add other configuration settings here
   }
   
@@ -19,7 +18,7 @@ interface Config {
     azfPaginatedUrl: '/serverpaginated/',
     azfWithFilterUrl: '/getwithfilter/',
     azfBaseUrl: 'https://odgazfdata.azurewebsites.net/api',
-    azfKey: '?code=2elvjIPiQOAqdljOH_NrYVOM6evrkAk4E6U62Jx_V6OxAzFuBxLimg=='
+
   };
   
   export default config;
