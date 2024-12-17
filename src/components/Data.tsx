@@ -130,7 +130,7 @@ const Data: React.FC = () => {
 
         let _filterURL = setFilterURL();
         let _orderbyURL = setOrderByURL();
-        
+        console.log("_filterURL = " + _filterURL);
         dispatch(fetchData({filterURL: _filterURL, orderbyURL: _orderbyURL}))
           .unwrap()
           .then((originalPromiseResult) => {

@@ -1,7 +1,7 @@
 import {createAsyncThunk } from '@reduxjs/toolkit';
 import {IOuterJsonObject} from '../../interfaces/IOuterJsonObject';
 import Config from '../../../src/configurations/config';
-import {useEffect} from  'react';
+
 
 
 // Initial Pull of Data
@@ -9,26 +9,33 @@ export const fetchData = createAsyncThunk<IOuterJsonObject, {filterURL: string, 
   'ppploanData/fetchData',
   async ({filterURL,orderbyURL},{ rejectWithValue }) => {
     try {
-      var azfKey = "";
-      useEffect(() => {
+      console.log("in fetchData");
+
+  
         let azfKey = process.env.REACT_APP_AZF_KEY;
         console.log('AZF Key:', azfKey);
-      }, []);
+        console.log('process.env: ',process.env);
+
+      console.log("in fetchData");
       //const baseUrl = 'https://ppploan-gdgbctfqa0c2fda4.eastus2-01.azurewebsites.net/api/PPPLoan/paginated/';
       //const baseUrl = `${Config.apiBaseUrl}`;
       const baseUrl = `${Config.azfBaseUrl}`;
+      console.log("in fetchData");
       //const filterUrl = `${Config.apiWithFilterUrl}`;
       const filterRouteUrl = `${Config.azfWithFilterUrl}`;
+      console.log("in fetchData");
       const FilterUrl = `${filterURL}/`;
+      console.log("in fetchData");
       const OrderByUrl = `${orderbyURL}`;
-      const AzfKey = `${azfKey}`;
-      //console.log('api call url: ',baseUrl + filterRouteUrl + FilterUrl + OrderByUrl + azfKey);
+      console.log("in fetchData");
+  
+      console.log('api call url: ',baseUrl + filterRouteUrl + FilterUrl + OrderByUrl + azfKey);
 
       //const params = page.toString() + '/' + pageSize.toString();
       //const params = new URLSearchParams({page.toString(), pageSize: pageSize.toString() });
       //const url = `${baseUrl}${params.toString()}`;
       //const response = await fetch('https://ppploan-gdgbctfqa0c2fda4.eastus2-01.azurewebsites.net/api/PPPLoan/paginated/1/5');
-      const response = await fetch(baseUrl + filterRouteUrl + FilterUrl + OrderByUrl + AzfKey);
+      const response = await fetch(baseUrl + filterRouteUrl + FilterUrl + OrderByUrl + azfKey);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -37,7 +44,7 @@ export const fetchData = createAsyncThunk<IOuterJsonObject, {filterURL: string, 
       return IOObjectdata;
       
       } catch (err) {
-        return rejectWithValue('Failed to fetch data');
+        return rejectWithValue('Failed to fetch data: ' + err);
       }
   }
 );
@@ -46,24 +53,24 @@ export const fetchPaginatedData = createAsyncThunk<IOuterJsonObject, {pageSize: 
   'ppploanData/fetchPaginatedData',
   async ({pageSize,page,filterModel,sortModel}, { rejectWithValue }) => {
     try {
-      var azfKey = "";
-      useEffect(() => {
+
         let azfKey = process.env.REACT_APP_AZF_KEY;
         console.log('AZF Key:', azfKey);
-      }, []);
+        console.log('process.env: ',process.env);
+
       //const baseUrl = 'https://ppploan-gdgbctfqa0c2fda4.eastus2-01.azurewebsites.net/api/PPPLoan/paginated/';
       //const baseUrl = `${Config.apiBaseUrl}`;
       //const apiPaginatedUrl = `${Config.apiPaginatedUrl}`;
       const baseUrl = `${Config.azfBaseUrl}`;
       const paginatedRouteUrl = `${Config.azfPaginatedUrl}`;
-      const AzfKey = `${azfKey}`;
+  
       //const params = page.toString() + '/' + pageSize.toString();
       //const params = new URLSearchParams({page.toString(), pageSize: pageSize.toString() });
       //const url = `${baseUrl}${params.toString()}`;
       
       const paramUrl = `${pageSize}/${page}/${filterModel}/${sortModel}`;
 
-      const response = await fetch(baseUrl + paginatedRouteUrl + paramUrl + AzfKey);
+      const response = await fetch(baseUrl + paginatedRouteUrl + paramUrl + azfKey);
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
