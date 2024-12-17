@@ -17,7 +17,7 @@ const Header: React.FC = () => {
             <div>
                 <Stack sx={{ borderColor: "lightgrey",alignItems: "center",backgroundColor: 'lightyellow'}}>
                     <h2 className="title is-4" style={{color: "a8b0b4"}}> PPP Loans Provided for New Jersey Businesses</h2>
-                    <h3 className="title is-5" style={{color: "a8b0b4"}}> POC Project Written in React/Typescript & .NET Core 6 Restful API By Mark Turanin</h3>
+                    <h3 className="title is-5" style={{color: "a8b0b4"}}> POC Azure Web App Written in React/Typescript with .NET Core 6 Azure Function App By Mark Turanin</h3>
                 </Stack>
                 <Stack direction="row" sx={{fontSize: "16px"}}>
                     <Box sx={{  border: "1px solid",borderColor: "lightgrey", width: '50%' }}>
