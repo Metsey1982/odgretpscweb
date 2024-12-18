@@ -31,17 +31,13 @@ export const fetchData = createAsyncThunk<IOuterJsonObject, {filterURL: string, 
   
       console.log('api call url: ',baseUrl + filterRouteUrl + FilterUrl + OrderByUrl + azfKey);
       const fullURL = baseUrl + filterRouteUrl + FilterUrl + OrderByUrl + azfKey;
+      console.log('api fullURL: ',fullURL);
+    
       //const params = page.toString() + '/' + pageSize.toString();
       //const params = new URLSearchParams({page.toString(), pageSize: pageSize.toString() });
       //const url = `${baseUrl}${params.toString()}`;
       //const response = await fetch('https://ppploan-gdgbctfqa0c2fda4.eastus2-01.azurewebsites.net/api/PPPLoan/paginated/1/5');
-      const response = await fetch(fullURL,{
-        method: 'GET',
-        mode: 'no-cors', // Disable CORS
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      const response = await fetch(fullURL);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -77,13 +73,7 @@ export const fetchPaginatedData = createAsyncThunk<IOuterJsonObject, {pageSize: 
       const paramUrl = `${pageSize}/${page}/${filterModel}/${sortModel}`;
       const fullURL = baseUrl + paginatedRouteUrl + paramUrl + azfKey;
 
-      const response = await fetch(fullURL,{
-        method: 'GET',
-        mode: 'no-cors', // Disable CORS
-        headers: {
-          'Content-Type': 'application/json'
-        }  
-      });
+      const response = await fetch(fullURL);
 
       if (!response.ok) {
         throw new Error('Network response was not ok');

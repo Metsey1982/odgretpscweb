@@ -23,7 +23,7 @@ const Data: React.FC = () => {
     const {globalSortArray} = useGlobalSortState();
 
     const columns: GridColDef[] = [
-        { field: 'loanrange', headerName: 'Loan#5dade2 Range', width: 150, sortable: false,filterable: false },
+        { field: 'loanrange', headerName: 'Loan Range', width: 150, sortable: false,filterable: false },
         { field: 'businessname', headerName: 'Business Name', width: 150, sortable: false, filterable: false },
         { field: 'address', headerName: 'Street Address', width: 150, sortable: false, filterable: false },
         { field: 'city', headerName: 'City', width: 150,  sortable: false,filterable: false },
